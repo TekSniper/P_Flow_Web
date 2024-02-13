@@ -1,0 +1,44 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Authentification";
+}
+
+<div class="columns is-centered">
+    <div class="column is-6-tablet is-5-desktop is-4-widescreen">
+        <form class="box" method="post">
+            <div class="field has-text-centered">
+                <img src="~/img/icons8-user (3).gif" alt="Utilisateur" />
+                <p>
+                    <h3 class="title">Authentification</h3>
+                </p>
+            </div>
+            <div class="field">
+                <label class="label" for="tblogin">Login</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" placeholder="Entrez votre login ou Numéro de téléphone" name="tbLogin" id="tblogin" />
+                    <span class="icon is-small is-left">
+                        <i class="fa-solid fa-user"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="tbpwd">Mot de passe</label>
+                <div class="control has-icons-left">
+                    <input type="password" class="input" placeholder="•••••••••••••••••" name="tbLogin" id="tbpwd" />
+                    <span class="icon is-small is-left">
+                        <i class="fa-solid fa-key"></i>
+                    </span>
+                </div>
+            </div><br />
+            <div class="field is-grouped"> 
+                <div class="control">
+                    <input type="submit" value="Se connecter" class="button is-success" />
+                </div>
+                <div class="control">
+                    <input type="reset" value="Reinitialiser" class="button is-outlined is-danger" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

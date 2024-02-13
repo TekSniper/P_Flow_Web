@@ -1,0 +1,99 @@
+﻿@page
+@model P_Flow_Web.Pages.CreateAdminModel
+@{
+    // Layout = "_LayoutUser";
+    ViewData["title"] = "Créer un compte Admin";
+}
+<div class="columns is-centered">
+    <div class="column is-10-tablet is-6-desktop is-8-widescreen">
+        <form class="box" method="post">
+            <div class="field has-text-centered">
+                <img src="~/img/icons8-user (3).gif" alt="Utilisateur" />
+                <p>
+                    <h3 class="title">Compte administrateur</h3>
+                </p>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label" for="tbPrenom">Prénom</label>
+                        <div class="control has-icons-left">
+                            <input type="text" class="input" placeholder="Entrez votre prénom" name="tbPrenom" id="tbPrenom" />
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="label" for="tbNom">Nom</label>
+                        <div class="control has-icons-left">
+                            <input type="text" class="input" placeholder="Entrez votre nom" name="tbNom" id="tbNom" />
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Sexe</label>
+                        <div class="control">
+                            <label class="radio">
+                                <input type="radio" name="sexe" value="M" /> Homme
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="sexe" value="F" /> Femme
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="tbLogin">Login</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" placeholder="Entrez votre login" name="tbLogin" id="tbLogin" />
+                    <span class="icon is-small is-left">
+                        <i class="fa-solid fa-user"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label" for="tbPwd_1">Mot de passe</label>
+                        <div class="control has-icons-left">
+                            <input type="password" class="input" placeholder="•••••••••••••••••" name="tbPwd" id="tbPwd_1" />
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-key"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="label" for="tbPwd_2">Confirmez le mot de passe</label>
+                        <div class="control has-icons-left">
+                            <input type="password" class="input" placeholder="•••••••••••••••••" name="tbConfirm" id="tbPwd_2" />
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-key"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="field is-grouped">
+                <div class="control">
+                    <input type="submit" value="Créer le compte admin" class="button is-primary" />
+                </div>
+                <div class="control">
+                    <input type="reset" value="Reinitialiser" class="button is-outlined is-danger" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

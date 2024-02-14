@@ -37,5 +37,40 @@ namespace P_Flow_Web.Class
                 return check;
             }
         }
+        public bool ExistsUser()
+        {
+            using (var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("select * from pf.utilisateur where login=@login", cnx);
+                cm.Parameters.AddWithValue("@login", this.Login);
+                var reader = cm.ExecuteReader();
+                if (reader.Read())
+                    return true;
+                else
+                    return false;
+            }
+        }
+        public bool CreateUser()
+        {
+            using(var cnx = new dbConnection().GetConnection()) 
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("insert into pf.utilisateur(prenom,nom,sexe,login,mot_de_passe,type_user)" +
+                    " values(@prenom,@nom,@sexe,@login,@pwd,@type)", cnx);
+                cm.Parameters.AddWithValue("@prenom", this.Prenom);
+                cm.Parameters.AddWithValue("@nom", this.Nom);
+                cm.Parameters.AddWithValue("@sexe", this.Sexe);
+                cm.Parameters.AddWithValue("@login", this.Login);
+                cm.Parameters.AddWithValue("@pwd", this.Motdepasse);
+                cm.Parameters.AddWithValue("@type", this.TypeUser);
+
+                var i = cm.ExecuteNonQuery();
+                if (i != 0)
+                    return true;
+                else
+                    return false;
+            }
+        }
     }
 }

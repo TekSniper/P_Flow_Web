@@ -22,5 +22,9 @@ namespace P_Flow_Web.Pages
             else
                 Response.Redirect("/CreateAdmin");
         }
+        public void OnPost()
+        {
+
+        }
     }
 }

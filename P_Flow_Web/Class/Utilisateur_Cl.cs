@@ -72,5 +72,24 @@ namespace P_Flow_Web.Class
                     return false;
             }
         }
+        public bool Authentication()
+        {
+            using(var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("select * from pf.utilisateur where login=@login and mot_de_passe=@pwd", cnx);
+                cm.Parameters.AddWithValue("@login", this.Login);
+                cm.Parameters.AddWithValue("@pwd", this.Motdepasse);
+                var reader = cm.ExecuteReader();
+                var isTrue = false;
+
+                if (reader.Read())
+                    isTrue = true;
+                else
+                    isTrue = false;
+
+                return isTrue;
+            }
+        }
     }
 }

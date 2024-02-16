@@ -11,6 +11,8 @@ namespace P_Flow_Web.Pages
         public string SuccessMessage { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
         public string WarningMessage { get; set; } = string.Empty; 
+        public string Login { get; set; } = string.Empty;
+        public string TypeUser { get; set; } = string.Empty;
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
@@ -21,14 +23,42 @@ namespace P_Flow_Web.Pages
             var checkEistsUsers = new Class.Utilisateur_Cl().ExistsOneOrMorUsers();
             if (checkEistsUsers)
             {
-                
+
             }
             else
                 Response.Redirect("/CreateAdmin");
         }
         public void OnPost()
         {
+            utilisateur.Login = Request.Form["tbLogin"].ToString();
+            utilisateur.Motdepasse = Request.Form["tbPwd"].ToString();
 
+            var isExists = utilisateur.ExistsUser();
+            switch (isExists)
+            {
+                case true:
+                    {
+                        var isAuthenticated = utilisateur.Authentication();
+                        if (isAuthenticated)
+                        {
+                            HttpContext.Session.SetString("Login", utilisateur.Login);
+                            HttpContext.Session.SetString("Type", utilisateur.GetTypeUser());
+                            Response.Redirect("/Dash/TableauDeBord");
+                        }
+                        else
+                        {
+                            ErrorMessage = "Mot de passe incorrêt... Vueillez rééssayer.";
+                            return;
+                        }
+                    }
+                    break;
+                case false:
+                    {
+                        WarningMessage = "Ce compte utilisateur n'existe pas dans le système.";
+                        //return;
+                    }
+                    break;
+            }
         }
     }
 }

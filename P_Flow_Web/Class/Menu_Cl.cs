@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace P_Flow_Web.Class
 {
@@ -16,13 +17,13 @@ namespace P_Flow_Web.Class
 
 
         //Recupération de la paire clé/valeur des menus
-        public List<Menu_Cl> GetParentMenus(string Identifiant)
+        public List<Menu_Cl> GetParentMenus(string Login)
         {
             using (var cnx = new dbConnection().GetConnection())
             {
                 cnx.Open();
                 var cm = new NpgsqlCommand("GetParentMenu", cnx);
-                cm.CommandType = System.Data.CommandType.StoredProcedure;
+                cm.Parameters.AddWithValue("@login", Login);
                 parentMenus = new List<Menu_Cl>();
                 var reader = cm.ExecuteReader();
                 while (reader.Read())
@@ -42,14 +43,16 @@ namespace P_Flow_Web.Class
                 return parentMenus;
             }
         }
-        public List<Menu_Cl> GetChildMenu(string Code, string Identifiant)
+        public List<Menu_Cl> GetChildMenu(string Login, string Code)
         {
             using (var cnx = new dbConnection().GetConnection())
             {
                 cnx.Open();
                 var cm = new NpgsqlCommand("GetMenuTabByParent", cnx);
                 cm.CommandType = System.Data.CommandType.StoredProcedure;
-                //cm.Parameters.Add(new SqlParameter("@code", Code));
+
+                cm.Parameters.AddWithValue("@login", Login);
+                cm.Parameters.AddWithValue("@code", Code);
                 childMenus = new List<Menu_Cl>();
                 var reader = cm.ExecuteReader();
                 while (reader.Read())
@@ -99,5 +102,6 @@ namespace P_Flow_Web.Class
                 return childMenus1;
             }
         }
+        
     }
 }

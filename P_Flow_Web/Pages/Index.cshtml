@@ -6,7 +6,7 @@
 @if (Model.SuccessMessage.Length != 0)
 {
     <div class="columns is-centered">
-        <div class="column is-10-tablet is-6-desktop is-8-widescreen">
+        <div class="column is-6-tablet is-5-desktop is-4-widescreen">
             <div class="notification is-primary is-light">
                 <button class="delete" aria-label="delete"></button>
                 <p>
@@ -22,7 +22,7 @@
 @if (Model.WarningMessage.Length != 0)
 {
     <div class="columns is-centered">
-        <div class="column is-10-tablet is-6-desktop is-8-widescreen">
+        <div class="column is-6-tablet is-5-desktop is-4-widescreen">
             <div class="notification is-warning is-light">
                 <button class="delete" aria-label="delete"></button>
                 <p>
@@ -38,7 +38,7 @@
 @if (Model.ErrorMessage.Length != 0)
 {
     <div class="columns is-centered">
-        <div class="column is-10-tablet is-6-desktop is-8-widescreen">
+        <div class="column is-6-tablet is-5-desktop is-4-widescreen">
             <div class="notification is-danger is-light">
                 <button class="delete" aria-label="delete"></button>
                 <p>
@@ -64,7 +64,7 @@
             <div class="field">
                 <label class="label" for="tblogin">Login</label>
                 <div class="control has-icons-left">
-                    <input type="text" class="input" placeholder="Entrez votre login ou Numéro de téléphone" name="tbLogin" id="tblogin" value="@Model.utilisateur.Login" />
+                    <input type="text" class="input" placeholder="Entrez votre login ou Numéro de téléphone" name="tbLogin" id="tblogin" autofocus value="@Model.utilisateur.Login" />
                     <span class="icon is-small is-left">
                         <i class="fa-solid fa-user"></i>
                     </span>
@@ -73,7 +73,7 @@
             <div class="field">
                 <label class="label" for="tbpwd">Mot de passe</label>
                 <div class="control has-icons-left">
-                    <input type="password" class="input" placeholder="•••••••••••••••••" name="tbPwd" id="tbpwd" value="@Model.utilisateur.Motdepasse" />
+                    <input type="password" class="input" placeholder="•••••••••••••••••" name="tbPwd" id="tbpwd" />
                     <span class="icon is-small is-left">
                         <i class="fa-solid fa-key"></i>
                     </span>

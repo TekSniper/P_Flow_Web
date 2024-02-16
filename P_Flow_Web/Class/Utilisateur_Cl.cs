@@ -91,5 +91,19 @@ namespace P_Flow_Web.Class
                 return isTrue;
             }
         }
+        public string GetTypeUser()
+        {
+            using(var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("select type_user from pf.utilisateur where login=@login", cnx);
+                cm.Parameters.AddWithValue("@login", this.Login);
+                var reader = cm.ExecuteReader();
+                if (reader.Read())
+                    return reader.GetString(0);
+                else
+                    return string.Empty;
+            }
+        }
     }
 }

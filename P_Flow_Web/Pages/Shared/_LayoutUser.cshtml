@@ -9,43 +9,90 @@
     <link href="~/lib/fontawesome/fontawesome/css/all.min.css" rel="stylesheet" />
     <link href="~/lib/bulma/bulma/css/bulma.css" rel="stylesheet" />
     <link href="~/lib/bulma/bulma/css/bulma.min.css" rel="stylesheet" />
-    <a href="~/lib/bulma/bulma/css/bulma.css.map">~/lib/bulma/bulma/css/bulma.css.map</a>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/P_Flow_Web.styles.css" asp-append-version="true" />
     <link rel="icon" href="~/img/OIG4 (1).jpeg" />
+    <style>
+        navbar-links{
+            color:white;
+            text-decoration:none;
+        }
+    </style>
 </head>
 <body>
     <header class="">
-        <nav class="navbar has-shadow has-background-info has-text-light is-fixed-top" role="navigation" aria-label="main navigation">
+        <nav class="navbar is-primary has-shadow" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item link_color" asp-area="" asp-page="/Index">
-                    <img src="~/img/OIG4 (1).jpeg" width="35px" height="50px" />&nbsp; Kazys
+                <div class="navbar-item">
+                    <h3 class="title has-text-white">
+                        <strong>P_Flow</strong>
+                    </h3>
+                </div>
+                
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
                 </a>
-                <div class="navbar-burger" role="button" aria-label="menu" aria-expanded="false" data-target="navMenu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+            </div>
+
+            <div id="navbarBasicExample" class="navbar-menu has-text-light">               
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <span><i class="icon">
+                                <i class="fa-solid fa-circle-user"></i>
+                            </i>
+                        </span> &nbsp; Utilisateur connecté : &nbsp;
+                        <label class="label has-text-white">@Model.Login</label>
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class="container is-fluid" style="padding-top:75px">
+        <div class="columns">
+            <div class="column is-4-tablet is-3-desktop is-3-widescreen">
+                <nav class="menu">
+                    <p class="menu-label has-text-black">Menu</p>
+                    @foreach (var parent in Model.GetAdminParentMenu())
+                    {
+                        <ul class="menu-list">
+                            <li class="list">
+                                <a class="sub-list">
+                                    <span class="icon"><i class="@parent.Icon"></i></span>
+                                    <strong>@parent.Designation</strong>
+                                    <i class="fa-solid fa-angle-right dropdown"></i>
+                                </a>
+                                <ul class="sub-menu">
+                                    @foreach (var child in Model.GetAdminChildMenu(parent.Code))
+                                    {
+                                        <li>
+                                            <a href="@child.Url" class="sub-menu-item">
+                                                @* <span class="icon"><i class="@child.Icon"></i></span> *@
+                                                @child.Designation
+                                            </a>
+                                        </li>                                        
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                </nav>
+            </div>
+            <div class="column box">
+                @RenderBody()
+            </div>
+        </div>       
+        
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - P_Flow_Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/fontawesome/fontawesome/js/all.js"></script>
     <script src="~/lib/fontawesome/fontawesome/js/all.min.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    @* @await RenderSectionAsync("Scripts", required: false) *@
 </body>
 </html>

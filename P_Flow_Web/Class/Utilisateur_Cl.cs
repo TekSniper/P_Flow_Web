@@ -105,5 +105,54 @@ namespace P_Flow_Web.Class
                     return string.Empty;
             }
         }
+        public bool GetStatus()
+        {
+            using(var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("select statut from pf.utilisateur where login=@login", cnx);
+                cm.Parameters.AddWithValue("@login", this.Login);
+                var reader = cm.ExecuteReader();
+                var status = false;
+                if(reader.Read())
+                    status = reader.GetBoolean(0);
+
+
+                return status;
+            }
+        }
+
+        public string GetLoginUser(int IdUser)
+        {
+            using (var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("select * from pf.utilisateur where id=@id", cnx);
+                cm.Parameters.AddWithValue("@id", IdUser);
+                var Login = string.Empty;
+                var reader = cm.ExecuteReader();
+                if (reader.Read())
+                    Login = reader.GetString(4);
+
+
+                return Login;
+            }
+        }
+
+        public int GetIdUser(string login)
+        {
+            var id = 0;
+            using (var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("select * from pf.utilisateur where id=@login", cnx);
+                cm.Parameters.AddWithValue("@login", login);
+                var reader = cm.ExecuteReader();
+                if (reader.Read())
+                    id = reader.GetInt32(0);
+            }
+
+            return id;
+        }
     }
 }

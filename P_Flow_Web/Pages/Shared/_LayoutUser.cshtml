@@ -13,18 +13,83 @@
     <link rel="stylesheet" href="~/P_Flow_Web.styles.css" asp-append-version="true" />
     <link rel="icon" href="~/img/OIG4 (1).jpeg" />
     <style>
+    body{
+    min-height: 100vh;
+    }
         navbar-links{
             color:white;
             text-decoration:none;
         }
+
+        .rotate {
+            transform: rotate(90deg);
+        }
+
+        .menu {
+            left: 0;
+            /*margin-top:50px;*/
+        }
+
+            .menu .menu-list .list {
+                position: relative;
+                cursor: pointer;
+            }
+
+                .menu .menu-list .list a {
+                    display: block;
+                    text-decoration: none;
+                    padding: 5px 30px;
+                    line-height: 30px;
+                }
+
+                    .menu .menu-list .list a:hover {
+                        background: #00D1B2;
+                        color: #009292;
+                        transition: 0.2s ease;
+                    }
+
+                    .menu .menu-list .list a .dropdown {
+                        position: absolute;
+                        right: 0;
+                        margin: 7.5px;
+                        transition: 0.2s ease;
+                    }
+
+                .menu .menu-list .list .sub-menu {
+                    display: none;
+                }
+
+                    .menu .menu-list .list .sub-menu a {
+                        display: block;
+                        text-decoration: none;
+                        padding: 5px 30px;
+                        line-height: 30px;
+                    }
+
+                        .menu .menu-list .list .sub-menu a:hover {
+                            background: #00D1B2;
+                            color: #009292;
+                            transition: 0.2s ease;
+                        }
+
+                        .menu .menu-list .list .sub-menu a .dropdown-sub {
+                            position: absolute;
+                            right: 15px;
+                            margin: 7.5px;
+                            transition: 0.2s ease;
+                        }
+
+                    .menu .menu-list .list .sub-menu .sub-menu-sub {
+                        display: none;
+                    }
     </style>
 </head>
-<body>
+<body class="has-background-success-light">
     <header class="">
-        <nav class="navbar is-primary has-shadow" role="navigation" aria-label="main navigation">
+        <nav class="navbar is-fixed-top has-shadow" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <div class="navbar-item">
-                    <h3 class="title has-text-white">
+                    <h3 class="title">
                         <strong>P_Flow</strong>
                     </h3>
                 </div>
@@ -37,21 +102,21 @@
                 </a>
             </div>
 
-            <div id="navbarBasicExample" class="navbar-menu has-text-light">               
+            <div id="navbarBasicExample" class="navbar-menu ">               
 
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <span><i class="icon">
                                 <i class="fa-solid fa-circle-user"></i>
-                            </i>
-                        </span> &nbsp; Utilisateur connecté : &nbsp;
-                        <label class="label has-text-white">@Model.Login</label>
+                            </i>&nbsp; Utilisateur connecté :&nbsp;
+                            <strong>@Model.Login</strong>
+                        </span> 
                     </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container is-fluid" style="padding-top:75px">
+    <div class="container is-fluid" style="padding-top:115px">
         <div class="columns">
             <div class="column is-4-tablet is-3-desktop is-3-widescreen">
                 <nav class="menu">
@@ -94,5 +159,33 @@
     <script src="~/lib/fontawesome/fontawesome/js/all.js"></script>
     <script src="~/lib/fontawesome/fontawesome/js/all.min.js"></script>
     @* @await RenderSectionAsync("Scripts", required: false) *@
+
+    <script type="text/javascript">
+        // $('.btn').click(function () {
+        //     $(this).toggleClass("click");
+        //     $('.sidebar').toggleClass("show");
+        // });
+        $(document).ready(function () {
+            //JQ 1
+            $('.sub-list').click(function () {
+                $(this).next('.sub-menu').slideToggle();
+                $(this).find('.dropdown').toggleClass('rotate');
+            });
+
+            $('.sub-menu-item').click(function () {
+                $(this).next('.sub-menu-sub').slideToggle();
+                $(this).find('.dropdown-sub').toggleClass('rotate');
+            }
+            );
+
+            //JQ 2
+            // $('.menu-btn').click(function () {
+            //     $('.side-bar').addClass('active');
+            // });
+            // $('.close-btn').click(function () {
+            //     $('.side-bar').removeClass('active');
+            // });
+        });
+    </script>
 </body>
 </html>

@@ -9,13 +9,14 @@ namespace P_Flow_Web.Pages.Dash
     {
         public string Login { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
-        public List<Menu_Cl> MenuList { get; set; }
+        public List<Menu_Cl> ParentMenu { get; set; }
+        public List<Menu_Cl> ChildMenu { get; set; }
         
         public void OnGet()
         {
             Login = HttpContext.Session.GetString("Login")!;
             Type = HttpContext.Session.GetString("Type")!;
-            if (Login == string.Empty || Type == string.Empty)
+            if (Login == null || Type == null)
                 Response.Redirect("/");
             else
             {
@@ -29,7 +30,7 @@ namespace P_Flow_Web.Pages.Dash
                 cnx.Open();
                 var cm = new NpgsqlCommand("select * from pf.menu where parent is null", cnx);
                 var reader = cm.ExecuteReader();
-                MenuList = new List<Menu_Cl>();
+                ParentMenu = new List<Menu_Cl>();
                 while (reader.Read())
                 {
                     Menu_Cl menu = new Menu_Cl();
@@ -38,11 +39,11 @@ namespace P_Flow_Web.Pages.Dash
                     menu.Icon = reader.GetString(3);
                     menu.Url = reader.GetString(4);
 
-                    MenuList.Add(menu);
+                    ParentMenu.Add(menu);
                 }
             }
 
-            return MenuList;
+            return ParentMenu;
         }
         public List<Menu_Cl> GetAdminChildMenu(string Code)
         {
@@ -50,7 +51,7 @@ namespace P_Flow_Web.Pages.Dash
                 cnx.Open();
                 var cm = new NpgsqlCommand("select * from pf.menu where parent is not null and parent=@parent", cnx);
                 cm.Parameters.AddWithValue("@parent", Code);
-                MenuList = new List<Menu_Cl>();
+                ChildMenu = new List<Menu_Cl>();
                 var reader = cm.ExecuteReader();
                 while (reader.Read())
                 {
@@ -61,10 +62,10 @@ namespace P_Flow_Web.Pages.Dash
                     menu.Icon = reader.GetString(3);
                     menu.Url = reader.GetString(4);
 
-                    MenuList.Add(menu);
+                    ChildMenu.Add(menu);
                 }
             }
-            return MenuList;
+            return ChildMenu;
         }
     }
 }

@@ -103,5 +103,43 @@ namespace P_Flow_Web.Class
             }
         }
         
+        public bool CreateParentMenu()
+        {
+            using(var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("insert into pf.menu(code,designation,icon,url) values(@code,@designation,@icon,@url)", cnx);
+                cm.Parameters.AddWithValue("@code", this.Code);
+                cm.Parameters.AddWithValue("@designation", this.Designation);
+                cm.Parameters.AddWithValue("@icon", this.Icon);
+                cm.Parameters.AddWithValue("@url", this.Url);
+
+                var i = cm.ExecuteNonQuery();
+                if (i != 0)
+                    return true;
+                else
+                    return false;
+            }
+        }
+        public bool CreateChildMenu()
+        {
+            using (var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("insert into pf.menu(code,designation,parent,icon,url) values" +
+                    " (@code,@designation,@parent,@icon,@url)", cnx);
+                cm.Parameters.AddWithValue("@code", this.Code);
+                cm.Parameters.AddWithValue("@designation", this.Designation);
+                cm.Parameters.AddWithValue("@parent", this.Parent);
+                cm.Parameters.AddWithValue("@icon", this.Icon);
+                cm.Parameters.AddWithValue("@url", this.Url);
+
+                var i = cm.ExecuteNonQuery();
+                if (i != 0)
+                    return true;
+                else
+                    return false;
+            }
+        }
     }
 }

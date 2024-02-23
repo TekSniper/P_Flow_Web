@@ -37,13 +37,26 @@ namespace P_Flow_Web.Pages
             switch (isExists)
             {
                 case true:
-                    {
+                    {                        
                         var isAuthenticated = utilisateur.Authentication();
                         if (isAuthenticated)
                         {
-                            HttpContext.Session.SetString("Login", utilisateur.Login);
-                            HttpContext.Session.SetString("Type", utilisateur.GetTypeUser());
-                            Response.Redirect("/Dash/TableauDeBord");
+                            var isActivated = utilisateur.GetStatus();
+                            switch (isActivated)
+                            {
+                                case true:
+                                    {
+                                        HttpContext.Session.SetString("Login", utilisateur.Login);
+                                        HttpContext.Session.SetString("Type", utilisateur.GetTypeUser());
+                                        Response.Redirect("/Dash/TableauDeBord");
+                                    }
+                                    break;
+                                case false:
+                                    {
+                                        WarningMessage = "Ce compte n'est pas autorisé à se connecter à l'application.\nVotre profil est désactivé. Pour plus d'infos vueillez contacter l'administrateur.\nMerci!";
+                                    }
+                                    break;
+                            }                            
                         }
                         else
                         {

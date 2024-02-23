@@ -7,13 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="Npgsql" Version="8.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\Compte\" />
-    <Folder Include="Pages\Mouvement\" />
-    <Folder Include="Pages\Menu\" />
   </ItemGroup>
 
 </Project>

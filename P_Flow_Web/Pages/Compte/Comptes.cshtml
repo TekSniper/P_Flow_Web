@@ -1,0 +1,47 @@
+﻿@page
+@using Org.BouncyCastle.Crypto.Engines
+@using System.Runtime.CompilerServices
+@model P_Flow_Web.Pages.Compte.ComptesModel
+@{
+    ViewData["title"] = "Les comptes";
+    Layout = "_LayoutUser";
+}
+
+<div class="columns is-centered">
+    <div class="column is-10-desktop is-10-widescreen is-8-tablet">
+        <h1 class="title">Les comptes du shop</h1>
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Num</th>
+                        <th>Type</th>
+                        <th>Intitulé</th>
+                        <th>Phone</th>
+                        <th>Solde</th>
+                        <th>Devise</th>
+                        <th>Login Utilisateur</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var compte in Model.comptes)
+                {
+                    <tr>
+                        <td>@compte.NumeroCompte</td>
+                        <td>@compte.DesignationType</td>
+                        <td>@compte.Intitule</td>
+                        <td>@compte.NumeroPhone</td>
+                        <td>@compte.Solde</td>
+                        <td>@compte.Devise</td>
+                        <td>@compte.UserLogin</td>
+                        <td>
+                            <a href="#" class="button is-light is-link">Historique des mvt</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

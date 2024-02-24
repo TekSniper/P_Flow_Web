@@ -69,7 +69,18 @@ public class Souche_Cl
             cm.Parameters.AddWithValue("@id", Id);
             var reader = cm.ExecuteReader();
             if (reader.Read())
-                souche = reader.GetString(0) + "-" + reader.GetInt32(1);
+            {
+                souche = reader.GetString(0) + "-" + (reader.GetInt32(1)+1);
+                var isUpdated = UpdateSouche();
+                if (isUpdated)
+                {
+                    
+                }
+                else
+                {
+                    
+                }
+            }
         }
         return souche;
     }

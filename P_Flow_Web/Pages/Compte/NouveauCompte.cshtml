@@ -1,0 +1,106 @@
+﻿@page
+@using Org.BouncyCastle.Crypto.Engines
+@model P_Flow_Web.Pages.Compte.NouveauCompteModel
+@{
+    ViewData["title"] = "Créer un compte";
+    Layout = "_LayoutUser";
+}
+@if (Model.WarningMessage.Length > 0)
+{
+    <div class="notification is-warning is-light">
+        <button class="delete"></button>
+        <strong>Attention</strong>
+        <p>@Model.WarningMessage</p>
+    </div>
+}
+@if (Model.ErrorMessage.Length > 0)
+{
+    <div class="notification is-danger is-light">
+        <button class="delete"></button>
+        <strong>Erreur</strong>
+        <p>@Model.ErrorMessage</p>
+    </div>
+}
+@if (Model.SuccessMessage.Length > 0)
+{
+    <div class="notification is-success is-light">
+        <button class="delete"></button>
+        <strong>Succès</strong>
+        <p>@Model.SuccessMessage</p>
+    </div>
+}
+<div class="columns is-centered">
+    <div class="column is-10">
+        <h1 class="title">Creation d'un compte</h1>
+        <h3 class="subtitle">Monaie électronique, Airtimes, Especes</h3>
+        <form method="post">
+            <div class="columns">
+                <div class="column is-4">
+                    <div class="field">
+                        <label class="label" for="type_compte">Type compte</label>
+                        <div class="control">
+                            <div class="select">
+                                <select name="type" id="type_compte">
+                                    <option value="null">Selectionnez</option>
+                                    @foreach (var type in Model.GetTypeCompte())
+                                    {
+                                        <option value="@type.Id">@type.Designation</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label for="intitule">Intitulé du compte</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" name="intitule" id="intitule" value="@Model.compte.Intitule"/>
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-tag"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label for="phone" class="label">Numero de téléphone</label>
+                <div class="control has-icons-left">
+                    <input type="tel" class="input" name="phone" id="phone" value="@Model.compte.NumeroPhone" >
+                    <span class="icon is-small is-left">
+                        <i class="fa-solid fa-square-phone"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label for="solde" class="label">Solde</label>
+                        <div class="control has-icons-left">
+                            <input type="decimal" class="input" name="solde" id="solde" value="@Model.compte.Solde" >
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-cash-register"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label for="devise" class="label">Devise</label>
+                        <div class="control">
+                            <div class="select">
+                                <select name="devise" id="devise">
+                                    <option value="null">Selectionnez la devise</option>
+                                    @foreach (KeyValuePair<string, string> kvp in Model.CodeDesignationDevise)
+                                    {
+                                        <option value="@kvp.Key">@kvp.Value</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

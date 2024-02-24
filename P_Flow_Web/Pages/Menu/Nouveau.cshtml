@@ -1,0 +1,128 @@
+﻿@page
+@model P_Flow_Web.Pages.Menu.NouveauModel
+@{
+    ViewData["title"] = "Nouveau Menu";
+    Layout = "_LayoutUser";
+}
+@if (Model.WarningMessage.Length > 0)
+{
+    <div class="notification is-warning is-light">
+        <button class="delete"></button>
+        <strong>Attention</strong>
+        <p>@Model.WarningMessage</p>
+    </div>
+}
+@if (Model.ErrorMessage.Length > 0)
+{
+    <div class="notification is-danger is-light">
+        <button class="delete"></button>
+        <strong>Erreur</strong>
+        <p>@Model.ErrorMessage</p>
+    </div>
+}
+@if (Model.SuccessMessage.Length > 0)
+{
+    <div class="notification is-success is-light">
+        <button class="delete"></button>
+        <strong>Succès</strong>
+        <p>@Model.SuccessMessage</p>
+    </div>
+}
+
+<div class="columns is-centered">
+    <div class="column is-10-desktop is-10-widescreen is-8-tablet">
+        <h1 class="title">
+            Nouveau menu            
+        </h1>
+        <form class="form" method="post">
+            <div class="field">
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" id="parent" name="question" value="parent" checked autofocus onfocus="EnableDisableDropDown();" onclick="EnableDisableDropDown();">
+                        Menu parent
+                    </label>
+                    <label class="radio">
+                        <input type="radio" id="child" name="question" value="sous-menu" onclick="EnableDisableDropDown();">
+                        Sous-menu
+                    </label>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label" for="CodeMenu">Code Menu</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Entrez le code du menu" value="@Model._menu.Code" id="CodeMenu" name="tbCode">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-hashtag"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="label" for="designation">Designation</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Entrez la designation du menu" value="@Model._menu.Designation" id="designation" name="designation">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-bars"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="field">
+                <label class="label" for="dep">Dependance</label>
+                <div class="control">
+                    <div class="select">
+                        <select id="dep" name="parent">
+                            <option value="null">----</option>
+                            @foreach (var items in Model.GetParentMenu())
+                            {
+                                <option value="@items.Code">@items.Designation</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="lien">Lien</label>
+                <div class="control has-icons-left">
+                    <input class="input" type="text" placeholder="Entrez le lien du menu" value="@Model._menu.Url" id="lien" name="url">
+                    <span class="icon is-small is-left">
+                        <i class="fa-solid fa-link"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="icon">Icon</label>
+                <div class="control has-icons-left">
+                    <input class="input" type="text" placeholder="Entrez la classe (font awesome) de l'icône" value="@Model._menu.Icon" id="icon" name="icon">
+                    <span class="icon is-small is-left">
+                        <i class="fa-solid fa-icons"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <input type="submit" class="button is-success" value="Créer">
+                </div>
+                <div class="control">
+                    <input type="reset" class="button is-danger is-outlined" value="Réinistialiser">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function EnableDisableDropDown() {
+        var parents = document.getElementById("child");
+        var select = document.getElementById("dep");
+        var lien = document.getElementById("lien");
+        select.disabled = parents.checked ? false : true;
+        lien.disabled = parents.checked ? false : true;
+    }
+</script>

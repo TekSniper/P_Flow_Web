@@ -1,74 +1,63 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using P_Flow_Web.Class;
 using Npgsql;
+using P_Flow_Web.Class;
 
-namespace P_Flow_Web.Pages.Souche;
-
-public class NouvelleSouche : PageModel
+namespace P_Flow_Web.Pages.Compte
 {
-    public Souche_Cl souche = new Souche_Cl();
-    public string Login { get; set; } = string.Empty;
-    public string Type { get; set; } = string.Empty;
-    public string ErrorMessage { get; set; } = string.Empty;
-    public string WarningMessage { get; set; } = string.Empty;
-    public string SuccessMessage { get; set; } = string.Empty;
-    public List<Menu_Cl> ParentMenu { get; set; }
-    public List<Menu_Cl> ChildMenu { get; set; }
-    public List<Menu_Cl> ParentMenuForm { get; set; }
-    public void OnGet()
+    public class ComptesModel : PageModel
     {
-        Login = HttpContext.Session.GetString("Login")!;
-        Type = HttpContext.Session.GetString("Type")!;
-        if(Login == null)
-            Response.Redirect("/");
-        else
-        {
-            
-        }
-    }
-
-    public void OnPost()
-    {
-        try
+        public string Login { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty; 
+        public Menu_Cl _menu = new Menu_Cl();
+        public List<Menu_Cl> ParentMenu { get; set; }
+        public List<Menu_Cl> ChildMenu { get; set; }
+        public List<Menu_Cl> ParentMenuForm { get; set; }
+        public List<Compte_Cl> comptes { get; set; }
+        //public Compte_Cl compte = new Compte_Cl();
+        public void OnGet()
         {
             Login = HttpContext.Session.GetString("Login")!;
             Type = HttpContext.Session.GetString("Type")!;
-            souche.Designation = Request.Form["tbDesignation"].ToString();
-            souche.Prefixe = Request.Form["tbPrefixe"].ToString();
-            souche.NumSeq = 0;
-            if (souche.Designation == "" || souche.Prefixe == "")
+            if (Login == null)
             {
-                WarningMessage = "Remplissez les vides svp !";
+                Response.Redirect("/");
                 return;
             }
             else
             {
-                var isCreated = souche.CreateSouche();
-                switch (isCreated)
+                using (var cnx = new dbConnection().GetConnection())
                 {
-                    case true:
+                    cnx.Open();
+                    var cm = new NpgsqlCommand(
+                        "select numero_compte,designation,intitule,numero_phone,solde,devise,ct.id_user " +
+                        "from pf.compte ct, pf.type_compte tc where ct.id_type=tc.id", cnx);
+                    var reader = cm.ExecuteReader();
+                    comptes = new List<Compte_Cl>();
+
+                    while (reader.Read())
                     {
-                        SuccessMessage = "La souche " + souche.Designation + " est créée avec succès.";
-                        souche.Designation = string.Empty;
-                        souche.Prefixe = string.Empty;
-                        souche.NumSeq = 0;
+                        Compte_Cl compte = new Compte_Cl();
+                        compte.NumeroCompte = reader.GetString(0);
+                        compte.DesignationType = reader.GetString(1);
+                        compte.Intitule = reader.GetString(2);
+                        compte.NumeroPhone = reader.GetString(3);
+                        compte.Solde = reader.GetDecimal(4);
+                        compte.Devise = reader.GetString(5);
+                        compte.UserLogin = new Utilisateur_Cl().GetLoginUser(reader.GetInt32(6));
+                        
+                        comptes.Add(compte);
                     }
-                        break;
-                    case false:
-                    {
-                        ErrorMessage = "Echec de création de la souche " + souche.Designation;
-                    }
-                        break;
                 }
             }
         }
-        catch (Exception e)
+
+        public void OnPost()
         {
-            ErrorMessage = e.Message;
+
         }
-    }
-    
-    public List<Menu_Cl> GetAdminParentMenu()
+
+        public List<Menu_Cl> GetAdminParentMenu()
         {
             using (var cnx = new dbConnection().GetConnection())
             {
@@ -115,7 +104,7 @@ public class NouvelleSouche : PageModel
         }
         public List<Menu_Cl> GetParentMenu()
         {
-            using(var cnx = new dbConnection().GetConnection())
+            using (var cnx = new dbConnection().GetConnection())
             {
                 cnx.Open();
                 var cm = new NpgsqlCommand("select * from pf.menu where parent is null", cnx);
@@ -133,4 +122,5 @@ public class NouvelleSouche : PageModel
             }
             return ParentMenuForm;
         }
+    }
 }

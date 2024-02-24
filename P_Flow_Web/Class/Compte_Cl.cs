@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using System.Data;
+using Npgsql;
 
 namespace P_Flow_Web.Class
 {
@@ -39,5 +40,17 @@ namespace P_Flow_Web.Class
 
             return isTrue;
         }
+
+        /*public DataTable GetCompteTable()
+        {
+            var solde = 0.00M;
+            using (var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("select * from pf.compte where numerocompte=@numcompte", cnx);
+            }
+
+            return solde;
+        }*/
     }
 }

@@ -66,6 +66,10 @@ public class Souche_Cl
         {
             cnx.Open();
             var cm = new NpgsqlCommand("select prefixe,num_seq+1 as IncNum from pf.souche where id=@id", cnx);
+            cm.Parameters.AddWithValue("@id", Id);
+            var reader = cm.ExecuteReader();
+            if (reader.Read())
+                souche = reader.GetString(0) + "-" + reader.GetInt32(1);
         }
         return souche;
     }

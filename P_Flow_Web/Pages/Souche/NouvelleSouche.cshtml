@@ -1,19 +1,86 @@
 @page
+@using P_Flow_Web.Class
 @model P_Flow_Web.Pages.Souche.NouvelleSouche
 
 @{
-    Layout = null;
+    Layout = "_LayoutUser";
+    ViewData["title"] = "Nouvelle souche";
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
+@if (Model.WarningMessage.Length > 0)
+{
+    <div class="notification is-warning is-light">
+        <button class="delete"></button>
+        <strong>Attention</strong>
+        <p>@Model.WarningMessage</p>
+    </div>
+}
+@if (Model.ErrorMessage.Length > 0)
+{
+    <div class="notification is-danger is-light">
+        <button class="delete"></button>
+        <strong>Erreur</strong>
+        <p>@Model.ErrorMessage</p>
+    </div>
+}
+@if (Model.SuccessMessage.Length > 0)
+{
+    <div class="notification is-success is-light">
+        <button class="delete"></button>
+        <strong>Succès</strong>
+        <p>@Model.SuccessMessage</p>
+    </div>
+}
+<div class="columns">
+    <div class="column">
+        <h1 class="title">
+            Nouvelle souche
+        </h1>
+        <form method="post">
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label" for="designation">Designation</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" name="tbDesignation" id="designation" value="@Model.souche.Designation" />
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="label" for="prefixe">Prefixe</label>
+                        <div class="control has-icons-left">
+                            <input type="text" class="input" name="tbPrefixe" id="prefixe" value="@Model.souche.Designation"/>
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-pen-nib"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-4">
+                    <div class="field">
+                        <label class="label" for="numero">Numero sequence</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="number" name="tbNum" value="0" disabled/>
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-list-numeric"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <input type="submit" class="button is-success" value="Créer"/>
+                </div>
+                <div class="control">
+                    <input class="button is-outlined is-danger" value="Initialiser" type="reset"/>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
-</body>
-</html>

@@ -1,65 +1,52 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using P_Flow_Web.Class;
 using Npgsql;
+using P_Flow_Web.Class;
 
-namespace P_Flow_Web.Pages.Souche;
+namespace P_Flow_Web.Pages.Menu;
 
-public class NouvelleSouche : PageModel
+public class Liste : PageModel
 {
-    public Souche_Cl souche = new Souche_Cl();
-    public string Login { get; set; } = string.Empty;
-    public string Type { get; set; } = string.Empty;
-    public string ErrorMessage { get; set; } = string.Empty;
-    public string WarningMessage { get; set; } = string.Empty;
-    public string SuccessMessage { get; set; } = string.Empty;
     public List<Menu_Cl> ParentMenu { get; set; }
     public List<Menu_Cl> ChildMenu { get; set; }
     public List<Menu_Cl> ParentMenuForm { get; set; }
+    public string Login { get; set; } = string.Empty;
+    public string Type { get; set; } = string.Empty;
+    public List<Menu_Cl> menus { get; set; }
     public void OnGet()
     {
         Login = HttpContext.Session.GetString("Login")!;
         Type = HttpContext.Session.GetString("Type")!;
-        if(Login == null)
+        if(Login == string.Empty)
             Response.Redirect("/");
         else
         {
-            
-        }
-    }
-
-    public void OnPost()
-    {
-        Login = HttpContext.Session.GetString("Login")!;
-        Type = HttpContext.Session.GetString("Type")!;
-        souche.Designation = Request.Form["tbDesignation"].ToString();
-        souche.Prefixe = Request.Form["tbPrefixe"].ToString();
-        souche.NumSeq = 0;
-        if (souche.Designation == "" || souche.Prefixe == "")
-        {
-            WarningMessage = "Remplissez les vides svp !";
-            return;
-        }
-        else
-        {
-            var isCreated = souche.CreateSouche();
-            switch (isCreated)
+            using (var cnx = new dbConnection().GetConnection())
             {
-                case true:
+                cnx.Open();
+                var cm = new NpgsqlCommand("select * from pf.menu", cnx);
+                menus = new List<Menu_Cl>();
+                var reader = cm.ExecuteReader();
+                while (reader.Read())
                 {
-                    SuccessMessage = "La souche " + souche.Designation + " est créée avec succès.";
-                    souche.Designation = string.Empty;
-                    souche.Prefixe = string.Empty;
-                    souche.NumSeq = 0;
+                    Menu_Cl menu = new Menu_Cl();
+                    menu.Code = reader.GetString(0);
+                    menu.Designation = reader.GetString(1);
+                    if (reader.IsDBNull(2))
+                        menu.Parent = "NULL";
+                    else
+                        menu.Parent = reader.GetString(2);
+                    menu.Icon = reader.GetString(3);
+                    if (reader.IsDBNull(4))
+                        menu.Url = "Pas de lien";
+                    else 
+                        menu.Url = reader.GetString(4);
+
+                    menus.Add(menu);
                 }
-                    break;
-                case false:
-                {
-                    ErrorMessage = "Echec de création de la souche " + souche.Designation;
-                }
-                    break;
             }
         }
     }
+    
     
     public List<Menu_Cl> GetAdminParentMenu()
         {

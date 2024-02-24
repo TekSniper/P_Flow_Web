@@ -1,0 +1,43 @@
+@page
+@model P_Flow_Web.Pages.Menu.Liste
+
+@{
+    Layout = "_LayoutUser";
+    ViewData["title"] = "Liste des menus";
+}
+
+<div class="columns is-centered">
+    <div class="column is-10-desktop is-10-widescreen is-8-tablet">
+        <h1 class="title">Liste des menus</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Code</th>
+                <th>Designation</th>
+                <th>Parent</th>
+                <th>Icon</th>
+                <th>Url</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var list in Model.menus)
+            {
+                <tr>
+                    <td>@list.Code</td>
+                    <td>@list.Designation</td>
+                    @if (list.Parent == "NULL")
+                    {
+                        <td class="has-text-danger-dark">@list.Parent</td>
+                    }
+                    @if (list.Parent != "NULL")
+                    {
+                        <td class="has-text-success">@list.Parent</td>
+                    }
+                    <td>@list.Icon</td>
+                    <td>@list.Url</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

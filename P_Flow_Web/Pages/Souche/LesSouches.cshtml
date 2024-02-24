@@ -2,18 +2,34 @@
 @model P_Flow_Web.Pages.Souche.LesSouches
 
 @{
-    Layout = null;
+    Layout = "_LayoutUser";
+    ViewData["title"] = "Liste des souches";
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
+<div class="columns is-centered">
+    <div class="column is-10-desktop is-10-widescreen is-8-tablet">
+        <h1 class="title">
+            Liste des souches
+        </h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Designation</th>
+                <th>Prefixe</th>
+                <th>Numero sequence</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var souche in Model.souches)
+            {
+                <tr>
+                    <td>@souche.Id</td>
+                    <td>@souche.Designation</td>
+                    <td>@souche.Prefixe</td>
+                    <td>@souche.NumSeq</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
 </div>
-</body>
-</html>

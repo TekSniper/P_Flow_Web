@@ -14,7 +14,10 @@ namespace P_Flow_Web.Pages.Compte
         public List<Menu_Cl> ChildMenu { get; set; }
         public List<Menu_Cl> ParentMenuForm { get; set; }
         public List<Compte_Cl> comptes { get; set; }
-        //public Compte_Cl compte = new Compte_Cl();
+        public Compte_Cl compte = new Compte_Cl();
+        public string SuccessMessage { get; set; } = string.Empty;
+        public string ErrorMessage { get; set; } = string.Empty;
+        public string WarningMessage { get; set; } = string.Empty;
         public void OnGet()
         {
             Login = HttpContext.Session.GetString("Login")!;
@@ -30,23 +33,24 @@ namespace P_Flow_Web.Pages.Compte
                 {
                     cnx.Open();
                     var cm = new NpgsqlCommand(
-                        "select numero_compte,designation,intitule,numero_phone,solde,devise,ct.id_user " +
+                        "select numero_compte,designation,intitule,numero_phone,solde,devise,ct.id_user,ct.code_reseau " +
                         "from pf.compte ct, pf.type_compte tc where ct.id_type=tc.id", cnx);
                     var reader = cm.ExecuteReader();
                     comptes = new List<Compte_Cl>();
 
                     while (reader.Read())
                     {
-                        Compte_Cl compte = new Compte_Cl();
-                        compte.NumeroCompte = reader.GetString(0);
-                        compte.DesignationType = reader.GetString(1);
-                        compte.Intitule = reader.GetString(2);
-                        compte.NumeroPhone = reader.GetString(3);
-                        compte.Solde = reader.GetDecimal(4);
-                        compte.Devise = reader.GetString(5);
-                        compte.UserLogin = new Utilisateur_Cl().GetLoginUser(reader.GetInt32(6));
+                        Compte_Cl _compte = new Compte_Cl();
+                        _compte.NumeroCompte = reader.GetString(0);
+                        _compte.DesignationType = reader.GetString(1);
+                        _compte.Intitule = reader.GetString(2);
+                        _compte.NumeroPhone = reader.GetString(3);
+                        _compte.Solde = reader.GetDecimal(4);
+                        _compte.Devise = reader.GetString(5);
+                        _compte.UserLogin = new Utilisateur_Cl().GetLoginUser(reader.GetInt32(6));
+                        _compte.CodeReseau = reader.GetString(7);
                         
-                        comptes.Add(compte);
+                        comptes.Add(_compte);
                     }
                 }
             }
@@ -54,7 +58,7 @@ namespace P_Flow_Web.Pages.Compte
 
         public void OnPost()
         {
-
+            
         }
 
         public List<Menu_Cl> GetAdminParentMenu()

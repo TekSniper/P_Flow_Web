@@ -53,7 +53,7 @@
                 </div>
                 <div class="column">
                     <div class="field">
-                        <label for="intitule">Intitulé du compte</label>
+                        <label for="intitule" class="label">Intitulé du compte</label>
                         <div class="control has-icons-left">
                             <input class="input" type="text" name="intitule" id="intitule" value="@Model.compte.Intitule"/>
                             <span class="icon is-small is-left">
@@ -91,14 +91,38 @@
                             <div class="select">
                                 <select name="devise" id="devise">
                                     <option value="null">Selectionnez la devise</option>
-                                    @foreach (KeyValuePair<string, string> kvp in Model.CodeDesignationDevise)
+                                    @foreach (var d in Model.GetDevise())
                                     {
-                                        <option value="@kvp.Key">@kvp.Value</option>
+                                        <option value="@d.Code">@d.Designation</option>
                                     }
                                 </select>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label for="reseau" class="label">Réseau</label>
+                        <div class="control">
+                            <div class="select">
+                                <select name="reseau" id="reseau">
+                                    <option value="null">Selectionnez le reseau</option>
+                                    @foreach (var r in Model.GetResau())
+                                    {
+                                        <option value="@r.Code">@r.Designation</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <input type="submit" class="button is-success" value="Créer">
+                </div>
+                <div class="control">
+                    <input type="reset" class="button is-danger is-outlined" value="Réinitialiser">
                 </div>
             </div>
         </form>

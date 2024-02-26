@@ -50,7 +50,7 @@ public class Souche_Cl
         using (var cnx = new dbConnection().GetConnection())
         {
             cnx.Open();
-            var cm = new NpgsqlCommand("update pf.souche set (num_seq=num_seq+1) where id=@id", cnx);
+            var cm = new NpgsqlCommand("update pf.souche set num_seq=num_seq+1 where id=@id", cnx);
             cm.Parameters.AddWithValue("@id", GetIdSouche());
             var i = cm.ExecuteNonQuery();
             if (i != 0) isTrue = true;

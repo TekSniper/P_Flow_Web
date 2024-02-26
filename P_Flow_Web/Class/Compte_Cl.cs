@@ -14,6 +14,7 @@ namespace P_Flow_Web.Class
         public int IdUser { get; set; }
         public string DesignationType { get; set; }
         public string UserLogin { get; set; }
+        public string CodeReseau { get; set; }
 
         public bool CreateCompte()
         {
@@ -23,7 +24,7 @@ namespace P_Flow_Web.Class
                 cnx.Open();
                 var cm = new NpgsqlCommand(
                     "insert into pf.compte values(@num_compte,@type,@intitule,@num_phone,@solde,@devise," +
-                    "@id_user)",
+                    "@id_user,@code)",
                     cnx);
                 cm.Parameters.AddWithValue("@num_compte", NumeroCompte);
                 cm.Parameters.AddWithValue("@type", IdType);
@@ -32,6 +33,7 @@ namespace P_Flow_Web.Class
                 cm.Parameters.AddWithValue("@solde", Solde);
                 cm.Parameters.AddWithValue("@devise", Devise);
                 cm.Parameters.AddWithValue("@id_user", IdUser);
+                cm.Parameters.AddWithValue("@code", CodeReseau);
                 var i = cm.ExecuteNonQuery();
                 if (i != 0)
                     isTrue = true;

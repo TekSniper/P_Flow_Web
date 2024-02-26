@@ -92,9 +92,9 @@ namespace P_Flow_Web.Class
             using (var cnx = new dbConnection().GetConnection())
             {
                 cnx.Open();
-                var increase = GetBalance() - Amount;
-                var cm = new NpgsqlCommand("update pf.compte set solde=@increase where numero_compte=@numero", cnx);
-                cm.Parameters.AddWithValue("@increase", increase);
+                var decrease = GetBalance() - Amount;
+                var cm = new NpgsqlCommand("update pf.compte set solde=@decrease where numero_compte=@numero", cnx);
+                cm.Parameters.AddWithValue("@decrease", decrease);
                 cm.Parameters.AddWithValue("@numero", NumeroCompte);
                 var i = cm.ExecuteNonQuery();
                 if (i != 0) isTrue = true;

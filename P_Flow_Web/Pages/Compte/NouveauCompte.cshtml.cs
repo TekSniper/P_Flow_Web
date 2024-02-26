@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using P_Flow_Web.Class;
 using Npgsql;
+using ZstdSharp.Unsafe;
 
 namespace P_Flow_Web.Pages.Compte
 {
@@ -21,6 +22,7 @@ namespace P_Flow_Web.Pages.Compte
         public List<Menu_Cl> ParentMenuForm { get; set; }
         public List<Compte_Cl> comptes { get; set; }
         public Dictionary<string, string> CodeDesignationDevise = new Dictionary<string, string>();
+        public Dictionary<int, string> IdDesignationType = new Dictionary<int, string>();
         public void OnGet()
         {
             Login = HttpContext.Session.GetString("Login");
@@ -33,6 +35,7 @@ namespace P_Flow_Web.Pages.Compte
             else
             {
                 CodeDesignationDevise = new Devise_Cl().GetCodeAndDesignation();
+                IdDesignationType = new TypeCompte_Cl().GetKeyValueAccountTypes();
             }
         }
 

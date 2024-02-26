@@ -145,7 +145,7 @@ namespace P_Flow_Web.Class
             using (var cnx = new dbConnection().GetConnection())
             {
                 cnx.Open();
-                var cm = new NpgsqlCommand("select * from pf.utilisateur where id=@login", cnx);
+                var cm = new NpgsqlCommand("select * from pf.utilisateur where login=@login", cnx);
                 cm.Parameters.AddWithValue("@login", login);
                 var reader = cm.ExecuteReader();
                 if (reader.Read())

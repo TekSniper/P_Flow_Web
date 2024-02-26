@@ -1,0 +1,70 @@
+@page
+@model P_Flow_Web.Pages.Compte.NouveauType
+
+@{
+    Layout = "_LayoutUser";
+    ViewData["title"] = "Nouveau type";
+}
+@if (Model.WarningMessage.Length > 0)
+{
+    <div class="notification is-warning is-light">
+        <button class="delete"></button>
+        <strong>Attention</strong>
+        <p>@Model.WarningMessage</p>
+    </div>
+}
+@if (Model.ErrorMessage.Length > 0)
+{
+    <div class="notification is-danger is-light">
+        <button class="delete"></button>
+        <strong>Erreur</strong>
+        <p>@Model.ErrorMessage</p>
+    </div>
+}
+@if (Model.SuccessMessage.Length > 0)
+{
+    <div class="notification is-success is-light">
+        <button class="delete"></button>
+        <strong>Succès</strong>
+        <p>@Model.SuccessMessage</p>
+    </div>
+}
+<div class="columns is-centered">
+    <div class="column is-10">
+        <h1 class="title">Nouveau type compte</h1>
+        <form method="post">
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label for="designation" class="label">Designation</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" value="@Model.typeCompte.Designation" name="tbDesignation" id="designation"/>
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-tag"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label for="date" class="label">Date création</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="date" name="date" id="date" value="@DateTime.Now.Date.ToShortDateString()"/>
+                            <span class="icon is-left is-small">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <input type="submit" value="Créer" class="button is-success"/>
+                </div>
+                <div class="control">
+                    <input type="reset" value="Réinitialiser" class="button is-danger is-outlined"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

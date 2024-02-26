@@ -1,0 +1,33 @@
+@page
+@model P_Flow_Web.Pages.Compte.Types
+
+@{
+    Layout = "_LayoutUser";
+    ViewData["title"] = "Types compte";
+}
+<div class="columns is-centered">
+    <div class="column is-10">
+        <h1 class="title">Les types de compte</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Designation</th>
+                <th>Date creation</th>
+                <th>Id Utilisateur</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var t in Model.types)
+            {
+                <tr>
+                    <td>@t.Id</td>
+                    <td>@t.Designation</td>
+                    <td>@t.DateCreation</td>
+                    <td>@t.IdUser</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

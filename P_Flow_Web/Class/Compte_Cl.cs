@@ -41,6 +41,21 @@ namespace P_Flow_Web.Class
             return isTrue;
         }
 
+        public decimal GetBalance()
+        {
+            var balance = 0.00M;
+            using (var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("select * from pf.compte where numero_compte=@numero", cnx);
+                cm.Parameters.AddWithValue("@numero", NumeroCompte);
+                var reader = cm.ExecuteReader();
+                if (reader.Read())
+                    balance = reader.GetDecimal(4);
+            }
+
+            return balance;
+        }
         /*public DataTable GetCompteTable()
         {
             var solde = 0.00M;
@@ -52,5 +67,41 @@ namespace P_Flow_Web.Class
 
             return solde;
         }*/
+        public bool BalanceIncrease(decimal Amount)
+        {
+            var isTrue = false;
+            using (var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var increase = GetBalance() + Amount;
+                var cm = new NpgsqlCommand("update pf.compte set solde=@increase where numero_compte=@numero", cnx);
+                cm.Parameters.AddWithValue("@increase", increase);
+                cm.Parameters.AddWithValue("@numero", NumeroCompte);
+                var i = cm.ExecuteNonQuery();
+                if (i != 0) isTrue = true;
+                else isTrue = false;
+            }
+
+
+            return isTrue;
+        }
+
+        public bool BalanceDecrease(decimal Amount)
+        {
+            var isTrue = false;
+            using (var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var increase = GetBalance() - Amount;
+                var cm = new NpgsqlCommand("update pf.compte set solde=@increase where numero_compte=@numero", cnx);
+                cm.Parameters.AddWithValue("@increase", increase);
+                cm.Parameters.AddWithValue("@numero", NumeroCompte);
+                var i = cm.ExecuteNonQuery();
+                if (i != 0) isTrue = true;
+                else isTrue = false;
+            }
+
+            return isTrue;
+        }
     }
 }

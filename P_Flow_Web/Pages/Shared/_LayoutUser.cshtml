@@ -84,7 +84,7 @@
                     }
     </style>
 </head>
-<body class="has-background-success-light">
+<body class="has-background-primary-light">
     <header class="">
         <nav class="navbar is-fixed-top has-shadow" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
@@ -119,35 +119,41 @@
     <div class="container is-fluid" style="padding-top:115px">
         <div class="columns">
             <div class="column is-4-tablet is-3-desktop is-3-widescreen">
-                <nav class="menu">
-                    <p class="menu-label has-text-black">Menu</p>
-                    @foreach (var parent in Model.GetAdminParentMenu())
-                    {
-                        <ul class="menu-list">
-                            <li class="list">
-                                <a class="sub-list">
-                                    <span class="icon"><i class="@parent.Icon"></i></span>
-                                    <strong>@parent.Designation</strong>
-                                    <i class="fa-solid fa-angle-right dropdown"></i>
-                                </a>
-                                <ul class="sub-menu">
-                                    @foreach (var child in Model.GetAdminChildMenu(parent.Code))
-                                    {
-                                        <li>
-                                            <a href="@child.Url" class="sub-menu-item">
-                                                @* <span class="icon"><i class="@child.Icon"></i></span> *@
-                                                @child.Designation
-                                            </a>
-                                        </li>                                        
-                                    }
-                                </ul>
-                            </li>
-                        </ul>
-                    }
-                </nav>
+                <div>
+                    <nav class="menu">
+                        <p class="menu-label has-text-black">Menu</p>
+                        @foreach (var parent in Model.GetAdminParentMenu())
+                        {
+                            <ul class="menu-list">
+                                <li class="list">
+                                    <a class="sub-list">
+                                        <span class="icon"><i class="@parent.Icon"></i></span>
+                                        <strong>@parent.Designation</strong>
+                                        <i class="fa-solid fa-angle-right dropdown"></i>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        @foreach (var child in Model.GetAdminChildMenu(parent.Code))
+                                        {
+                                            <li>
+                                                <a href="@child.Url" class="sub-menu-item">
+                                                    @* <span class="icon"><i class="@child.Icon"></i></span> *@
+                                                    @child.Designation
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            </ul>
+                        }
+                    </nav>
+                </div>                
             </div>
-            <div class="column box">
-                @RenderBody()
+            <div class="column">
+                <div class="box">
+                    <div class="is-centered">
+                        @RenderBody()
+                    </div>
+                </div>                
             </div>
         </div>       
         

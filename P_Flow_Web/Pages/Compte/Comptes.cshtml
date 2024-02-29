@@ -8,22 +8,30 @@
 }
 
 <div class="columns is-centered">
+    @if (Model.ErrorMessage != string.Empty)
+    {
+        <div class="notification">
+            <button class="delete"></button>
+            <strong>Exception</strong>
+            <p>@Model.ErrorMessage</p>
+        </div>
+    }
     <div class="column is-10-desktop is-10-widescreen is-8-tablet">
         <h1 class="title">Les comptes du shop</h1>
         <div>
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>Num</th>
-                        <th>Type</th>
-                        <th>Intitulé</th>
-                        <th>Phone</th>
-                        <th>Solde</th>
-                        <th>Devise</th>
-                        <th>Login Utilisateur</th>
-                        <th>Réseau</th>
-                        <th>Action</th>
-                    </tr>
+                <tr>
+                    <th>Num</th>
+                    <th>Type</th>
+                    <th>Intitulé</th>
+                    <th>Phone</th>
+                    <th>Solde</th>
+                    <th>Devise</th>
+                    <th>Login Utilisateur</th>
+                    <th>Réseau</th>
+                    <th>Action</th>
+                </tr>
                 </thead>
                 <tbody>
                 @foreach (var compte in Model.comptes)

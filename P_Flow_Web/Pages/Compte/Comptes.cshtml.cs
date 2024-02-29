@@ -29,29 +29,37 @@ namespace P_Flow_Web.Pages.Compte
             }
             else
             {
-                using (var cnx = new dbConnection().GetConnection())
+                try
                 {
-                    cnx.Open();
-                    var cm = new NpgsqlCommand(
-                        "select numero_compte,designation,intitule,numero_phone,solde,devise,ct.id_user,ct.code_reseau " +
-                        "from pf.compte ct, pf.type_compte tc where ct.id_type=tc.id", cnx);
-                    var reader = cm.ExecuteReader();
-                    comptes = new List<Compte_Cl>();
-
-                    while (reader.Read())
+                    using (var cnx = new dbConnection().GetConnection())
                     {
-                        Compte_Cl _compte = new Compte_Cl();
-                        _compte.NumeroCompte = reader.GetString(0);
-                        _compte.DesignationType = reader.GetString(1);
-                        _compte.Intitule = reader.GetString(2);
-                        _compte.NumeroPhone = reader.GetString(3);
-                        _compte.Solde = reader.GetDecimal(4);
-                        _compte.Devise = reader.GetString(5);
-                        _compte.UserLogin = new Utilisateur_Cl().GetLoginUser(reader.GetInt32(6));
-                        _compte.CodeReseau = reader.GetString(7);
-                        
-                        comptes.Add(_compte);
+                        cnx.Open();
+                        var cm = new NpgsqlCommand(
+                            "select * from pf.get_comptes_tab()", cnx);
+                        //cm.CommandType = System.Data.CommandType.StoredProcedure;
+                        //cm.CommandType = System.Data.CommandType.Text;
+                        var reader = cm.ExecuteReader();
+                        comptes = new List<Compte_Cl>();
+
+                        while (reader.Read())
+                        {
+                            Compte_Cl _compte = new Compte_Cl();
+                            _compte.NumeroCompte = reader.GetString(0);
+                            _compte.DesignationType = reader.GetString(1);
+                            _compte.Intitule = reader.GetString(2);
+                            _compte.NumeroPhone = reader.GetString(3);
+                            _compte.Solde = reader.GetDecimal(4);
+                            _compte.Devise = reader.GetString(5);
+                            _compte.UserLogin = new Utilisateur_Cl().GetLoginUser(reader.GetInt32(6));
+                            _compte.CodeReseau = reader.GetString(7);
+
+                            comptes.Add(_compte);
+                        }                   
                     }
+                }
+                catch (Exception e)
+                {
+                    ErrorMessage = e.HResult+")"+e.Message + ". " + e.Source + ". " + e.HelpLink;
                 }
             }
         }

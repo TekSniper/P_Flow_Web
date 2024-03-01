@@ -1,4 +1,88 @@
 ﻿@page
 @model P_Flow_Web.Pages.Mouvement.HistoriqueModel
 @{
+    ViewData["title"] = "Mouvements";
+    Layout = "_LayoutUser";
 }
+<div class="columns is-centered is-fullwidth">
+    
+    @*<nav class="level">
+        <div class="level-left">
+            <div class="level-item">
+                Trier par dates :
+            </div>
+            <div class="level-item">
+                <form method="get">
+                    <div class="field">
+                        <p class="control has-icons-left">
+                            <input type="date" class="input" value="@DateTime.Now.Date" name="date_1">
+                            <span class="icon">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="field">
+                        <p class="control has-icons-left">
+                            <input type="date" class="input" value="@DateTime.Now.Date" name="date_2">
+                            <span class="icon">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="field">
+                        <p class="control">
+                            <input type="submit" class="button is-link is-outlined" value="Rechercher">
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="level-right">
+            
+        </div>
+    </nav>*@
+    <div class="column is-10">
+        <h1 class="title">Les mouvements des opérations</h1>
+            <nav class="level">
+                <div class="level-left">
+                    Recherche dans l'intervalle des dates
+                </div>
+                <div class="level-right">
+                    Recherche par type de mouvement
+                </div>
+            </nav>
+        <table class="table is-fullwidth">
+            <thead>
+            <tr>
+                <th>Numero Mvt</th>
+                <th>Type Mvt</th>
+                <th>Date</th>
+                <th>Designation</th>
+                <th>Volume</th>
+                <th>Montant</th>
+                <th>Montant payer</th>
+                <th>Devise</th>
+                <th>Frais trs</th>
+                <th>Num compte</th>
+                <th>Id Client</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

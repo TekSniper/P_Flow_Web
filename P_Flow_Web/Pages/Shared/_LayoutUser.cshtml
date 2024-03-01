@@ -16,7 +16,8 @@
     body{
     min-height: 100vh;
     }
-        navbar-links{
+    
+        .navbar-links{
             color:white;
             text-decoration:none;
         }
@@ -82,6 +83,12 @@
                     .menu .menu-list .list .sub-menu .sub-menu-sub {
                         display: none;
                     }
+                    
+                    
+                    .navbar-item a:hover{
+                        color: #00D1B2;
+                        transition: 0.3s ease;
+                    }
     </style>
 </head>
 <body class="has-background-success-light">
@@ -89,8 +96,8 @@
         <nav class="navbar is-fixed-top has-shadow" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <div class="navbar-item">
-                    <h3 class="title">
-                        <strong>P_Flow</strong>
+                    <h3 class="subtitle">
+                        <a class="navbar-item">P_Flow</a>
                     </h3>
                 </div>
                 
@@ -103,7 +110,13 @@
             </div>
 
             <div id="navbarBasicExample" class="navbar-menu ">               
-
+                <div class="navbar-start">
+                    <a href="/Dash/TableauDeBord" class="navbar-item">
+                        <span class="icon">
+                            <i class="fa-solid fa-gauge"></i>
+                        </span>&nbsp; Tableau de bord
+                    </a>
+                </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <span><i class="icon">
@@ -120,7 +133,7 @@
         <div class="columns">
             <div class="column is-4-tablet is-3-desktop is-3-widescreen">
                 <div>
-                    <nav class="menu">
+                    <nav class="menu is-fixed-top">
                         <p class="menu-label has-text-black">Menu</p>
                         @foreach (var parent in Model.GetAdminParentMenu())
                         {
@@ -153,10 +166,12 @@
                     <div class="is-centered">
                         @RenderBody()
                     </div>
-                </div>                
+                </div>  
+                    <p class="has-text-right is-fixed-bottom">
+                        &COPY; TekSniper | IT Dev - Graphic Designer | @DateTime.Now.Year.ToString()
+                    </p>              
             </div>
-        </div>       
-        
+        </div>      
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

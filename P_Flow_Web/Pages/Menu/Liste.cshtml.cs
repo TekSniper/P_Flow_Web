@@ -12,7 +12,7 @@ public class Liste : PageModel
     public string Login { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
     public List<Menu_Cl> menus { get; set; }
-    public void OnGet()
+    public void OnGet(string Parent)
     {
         Login = HttpContext.Session.GetString("Login")!;
         Type = HttpContext.Session.GetString("Type")!;
@@ -20,34 +20,79 @@ public class Liste : PageModel
             Response.Redirect("/");
         else
         {
-            using (var cnx = new dbConnection().GetConnection())
+            if (string.IsNullOrEmpty(Parent) || string.IsNullOrWhiteSpace(Parent))
             {
-                cnx.Open();
-                var cm = new NpgsqlCommand("select * from pf.menu", cnx);
                 menus = new List<Menu_Cl>();
-                var reader = cm.ExecuteReader();
-                while (reader.Read())
-                {
-                    Menu_Cl menu = new Menu_Cl();
-                    menu.Code = reader.GetString(0);
-                    menu.Designation = reader.GetString(1);
-                    if (reader.IsDBNull(2))
-                        menu.Parent = "NULL";
-                    else
-                        menu.Parent = reader.GetString(2);
-                    menu.Icon = reader.GetString(3);
-                    if (reader.IsDBNull(4))
-                        menu.Url = "Pas de lien";
-                    else 
-                        menu.Url = reader.GetString(4);
-
-                    menus.Add(menu);
-                }
+                menus = GetMenus();
+            }
+            else
+            {
+                menus = new List<Menu_Cl>();
+                menus = GetMenus(Parent);
             }
         }
     }
-    
-    
+
+    private List<Menu_Cl> GetMenus()
+    {
+        var list_menu = new List<Menu_Cl>();
+        using (var cnx = new dbConnection().GetConnection())
+        {
+            cnx.Open();
+            var cm = new NpgsqlCommand("select * from pf.menu", cnx);
+            menus = new List<Menu_Cl>();
+            var reader = cm.ExecuteReader();
+            while (reader.Read())
+            {
+                Menu_Cl menu = new Menu_Cl();
+                menu.Code = reader.GetString(0);
+                menu.Designation = reader.GetString(1);
+                if (reader.IsDBNull(2))
+                    menu.Parent = "NULL";
+                else
+                    menu.Parent = reader.GetString(2);
+                menu.Icon = reader.GetString(3);
+                if (reader.IsDBNull(4))
+                    menu.Url = "Pas de lien";
+                else 
+                    menu.Url = reader.GetString(4);
+
+                list_menu.Add(menu);
+            }
+        }
+        return list_menu;
+    }
+
+    private List<Menu_Cl> GetMenus(string parent)
+    {
+        var list_menu = new List<Menu_Cl>();
+        using (var cnx = new dbConnection().GetConnection())
+        {
+            cnx.Open();
+            var cm = new NpgsqlCommand("select * from pf.menu where parent=@parent", cnx);
+            cm.Parameters.AddWithValue("@parent", parent);
+            menus = new List<Menu_Cl>();
+            var reader = cm.ExecuteReader();
+            while (reader.Read())
+            {
+                Menu_Cl menu = new Menu_Cl();
+                menu.Code = reader.GetString(0);
+                menu.Designation = reader.GetString(1);
+                if (reader.IsDBNull(2))
+                    menu.Parent = "NULL";
+                else
+                    menu.Parent = reader.GetString(2);
+                menu.Icon = reader.GetString(3);
+                if (reader.IsDBNull(4))
+                    menu.Url = "Pas de lien";
+                else 
+                    menu.Url = reader.GetString(4);
+
+                list_menu.Add(menu);
+            }
+        }
+        return list_menu;
+    }
     public List<Menu_Cl> GetAdminParentMenu()
         {
             using (var cnx = new dbConnection().GetConnection())

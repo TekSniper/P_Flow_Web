@@ -8,7 +8,7 @@ namespace P_Flow_Web.Pages.Compte
     public class ComptesModel : PageModel
     {
         public string Login { get; set; } = string.Empty;
-        public string Type { get; set; } = string.Empty; 
+        public string Type { get; set; } = string.Empty;
         public Menu_Cl _menu = new Menu_Cl();
         public List<Menu_Cl> ParentMenu { get; set; }
         public List<Menu_Cl> ChildMenu { get; set; }
@@ -18,6 +18,7 @@ namespace P_Flow_Web.Pages.Compte
         public string SuccessMessage { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
         public string WarningMessage { get; set; } = string.Empty;
+
         public void OnGet()
         {
             Login = HttpContext.Session.GetString("Login")!;
@@ -54,19 +55,18 @@ namespace P_Flow_Web.Pages.Compte
                             _compte.CodeReseau = reader.GetString(7);
 
                             comptes.Add(_compte);
-                        }                   
+                        }
                     }
                 }
                 catch (Exception e)
                 {
-                    ErrorMessage = e.HResult+")"+e.Message + ". " + e.Source + ". " + e.HelpLink;
+                    ErrorMessage = e.HResult + ")" + e.Message + ". " + e.Source + ". " + e.HelpLink;
                 }
             }
         }
 
         public void OnPost()
         {
-            
         }
 
         public List<Menu_Cl> GetAdminParentMenu()
@@ -91,6 +91,7 @@ namespace P_Flow_Web.Pages.Compte
 
             return ParentMenu;
         }
+
         public List<Menu_Cl> GetAdminChildMenu(string Code)
         {
             using (var cnx = new dbConnection().GetConnection())
@@ -112,8 +113,10 @@ namespace P_Flow_Web.Pages.Compte
                     ChildMenu.Add(menu);
                 }
             }
+
             return ChildMenu;
         }
+
         public List<Menu_Cl> GetParentMenu()
         {
             using (var cnx = new dbConnection().GetConnection())
@@ -132,6 +135,7 @@ namespace P_Flow_Web.Pages.Compte
                     ParentMenuForm.Add(menu);
                 }
             }
+
             return ParentMenuForm;
         }
     }

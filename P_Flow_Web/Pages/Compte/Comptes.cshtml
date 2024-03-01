@@ -18,8 +18,18 @@
     }
     <div class="column is-10-desktop is-10-widescreen is-8-tablet">
         <h1 class="title">Les comptes du shop</h1>
+        <nav class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <strong>
+                    <span class="icon">
+                        <i class="fa-solid fa-filter"></i>
+                    </span></strong>&nbsp;Recherche par type
+                </div>
+            </div>
+        </nav>
         <div>
-            <table class="table">
+            <table class="table is-fullwidth">
                 <thead>
                 <tr>
                     <th>Num</th>
@@ -41,7 +51,7 @@
                         <td>@compte.DesignationType</td>
                         <td>@compte.Intitule</td>
                         <td>@compte.NumeroPhone</td>
-                        <td>@compte.Solde</td>
+                        <td>@compte.Solde.ToString("##,##.##")</td>
                         <td>@compte.Devise</td>
                         <td>@compte.UserLogin</td>
                         <td>@compte.CodeReseau</td>

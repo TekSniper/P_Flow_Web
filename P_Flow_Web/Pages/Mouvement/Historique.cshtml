@@ -60,7 +60,7 @@
                 <th>Designation</th>
                 <th>Volume</th>
                 <th>Montant</th>
-                <th>Montant payer</th>
+                <th>Montant payé</th>
                 <th>Devise</th>
                 <th>Frais trs</th>
                 <th>Num compte</th>
@@ -68,20 +68,21 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+                @foreach(var m in Model.mouvement_s){
+                    <tr>
+                        <td>@m.NumMouvement</td>
+                        <td>@m.TypeMvt</td>
+                        <td>@m.DateMvt</td>
+                        <td>@m.Designation</td>
+                        <td>@m.Volume</td>
+                        <td>@m.Montant &nbsp;@m.Devise</td>
+                        <td>@m.MontantAPayer &nbsp; @m.Devise</td>
+                        <td>@m.DesignationDevise</td>
+                        <td>@m.FraisTrs</td>
+                        <td>@m.NumCompte</td>
+                        <td>@m.IdClient</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

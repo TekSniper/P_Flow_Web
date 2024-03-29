@@ -19,6 +19,11 @@ namespace P_Flow_Web.Pages.Mouvement
         public List<string> TypePieceId { get; set; }
         public Client_Cl _client = new Client_Cl();
         public Mouvement_Cl _mouvement = new Mouvement_Cl();
+        public TypeMouvement_Cl type_mvt { get; set; }
+        public Souche_Cl souche = new Souche_Cl();
+        public Dictionary<int, string> listTypeMouvement = new Dictionary<int, string>();
+        public Dictionary<string, string> listDevise = new Dictionary<string, string>();
+        public Dictionary<string, string> listCompte = new Dictionary<string, string>();
         public void OnGet()
         {
             Login = HttpContext.Session.GetString("Login")!;
@@ -30,13 +35,17 @@ namespace P_Flow_Web.Pages.Mouvement
             }
             else
             {
-
+                type_mvt = new TypeMouvement_Cl();
+                listTypeMouvement = type_mvt.GetIdDesignation();
+                listDevise = new Devise_Cl().GetCodeAndDesignation();
+                listCompte = new Compte_Cl().GetNumDesignation();
             }
         }
         public void OnPost()
         {
             try
             {
+                Login = HttpContext.Session.GetString("Login")!;
                 _client.Nom = Request.Form["tbClientName"].ToString();
                 _client.PieceId = Request.Form["cbPiece"].ToString();
                 _client.RefPiece = Request.Form["tbRefPiece"].ToString();
@@ -51,7 +60,65 @@ namespace P_Flow_Web.Pages.Mouvement
                     var isAdded = _client.AddClient();
                     if (isAdded)
                     {
+                        type_mvt = new TypeMouvement_Cl();
+                        souche.Designation = "Mouvement";
+                        _mouvement.NumMouvement = souche.GetSouche();
+                        souche.Id = souche.GetIdSouche();
+                        var IdUser = new Utilisateur_Cl().GetIdUser(Login);
+                        var IdClient = _client.GetIdClient();
+                        _mouvement.IdUser = IdUser;
+                        _mouvement.IdClient = IdClient;
+                        type_mvt.Id = int.Parse(Request.Form["cbTypeMvt"].ToString());
+                        var percent = type_mvt.GetPercentCom();
+                        _mouvement.DateMvt = Convert.ToDateTime(Request.Form["tbDate"].ToString());
+                        _mouvement.Designation = Request.Form["tbDesignation"].ToString();
+                        _mouvement.Volume = Request.Form["tbVolume"].ToString();
+                        _mouvement.Montant = decimal.Parse(Request.Form["tbMontant"].ToString());
+                        _mouvement.MontantAPayer = decimal.Parse(Request.Form["tbMontantP"].ToString());
+                        _mouvement.Devise = Request.Form["cbDevise"].ToString();
+                        _mouvement.NumCompte = Request.Form["cbCompte"].ToString();
+                        _mouvement.NumDestinataire = _client.NumeroPhone;
+                        _mouvement.Commision = (decimal.Parse(Request.Form["tbMontant"].ToString()) * 6) / 100;
+                        var date = DateTime.Now.Date;
+                        var convertDate = DateTime.TryParse(_mouvement.DateMvt.ToString(), out date);
+                        var dec = 0.00M;
+                        var convertDec_1 = decimal.TryParse(_mouvement.Montant.ToString(), out dec);
+                        var convertDec_2 = decimal.TryParse(_mouvement.MontantAPayer.ToString(), out dec);
+                        if (_mouvement.NumMouvement == "" || convertDate || _mouvement.Designation == "" || _mouvement.Volume == "" || convertDec_1 || 
+                            convertDec_2 || _mouvement.Devise=="" || _mouvement.NumCompte == "" || _mouvement.NumDestinataire == "")
+                        {
+                            WarningMessage = "Remplissez les vides des détails de l'opération";
+                            return;
+                        }
+                        else
+                        {
+                            var isNew = _mouvement.NouvelleOperation();
+                            if (isNew)
+                            {
+                                SuccessMessage = "L'opération est enrégistrée avec succès.";
+                                _mouvement.NumMouvement = string.Empty;
+                                _mouvement.IdUser = 0;
+                                _mouvement.IdClient = 0;
+                                _mouvement.Designation = string.Empty;
+                                _mouvement.Volume = string.Empty;
+                                _mouvement.Montant = 0;
+                                _mouvement.MontantAPayer = 0;
+                                _mouvement.NumDestinataire = string.Empty;
+                                _mouvement.Commision = 0;
 
+                                return;
+                            }
+                            else
+                            {
+                                ErrorMessage = "Echec d'enrégistrement de l'opération";
+                                var isDeleted = _client.DeleteClient();
+                                if(isDeleted)
+                                {
+                                    ErrorMessage = ErrorMessage + "\nLe Client avec le numero " + _client.NumeroPhone + " est supprimé.";
+                                }
+                                return;
+                            }
+                        }
                     }
                     else
                     {
@@ -148,25 +215,6 @@ namespace P_Flow_Web.Pages.Mouvement
                 }
             }
             return ParentMenuForm;
-        }
-
-
-        //Balance du compte pour la mise à jour de la balance
-        public decimal GetAccountBalance(string NumCompte)
-        {
-            var balance = 0.00M;
-
-            using(var cnx = new dbConnection().GetConnection())
-            {
-                cnx.Open();
-                var cm = new NpgsqlCommand("select solde from pf.compte where numero_compte=@num", cnx);
-                cm.Parameters.AddWithValue("@num", NumCompte);
-                var reader = cm.ExecuteReader();
-                if (reader.Read())
-                    balance = reader.GetDecimal(0);
-            }
-
-            return balance;
         }
     }
 }

@@ -43,8 +43,8 @@ namespace P_Flow_Web.Pages.Mouvement
                             cnx.Open();
                             var cm = new NpgsqlCommand("select numero_mvt,type_mvt,date_mvt,mv.designation,volume," +
                                                      "montant,montant_a_payer," +
-                                                     "devise,frais_trs,num_compte,id_client,dv.designation " +
-                                                     "from pf.mouvement mv,pf.devise dv where devise=code", cnx);
+                                                     "mv.devise,frais_trs,num_compte,id_client " +
+                                                     "from pf.mouvement mv", cnx);
                             var reader = cm.ExecuteReader();
                             mouvement_s = new List<Mouvement_Cl>();
                             while (reader.Read())
@@ -61,7 +61,7 @@ namespace P_Flow_Web.Pages.Mouvement
                                 mvt.FraisTrs = reader.GetDecimal(8);
                                 mvt.NumCompte = reader.GetString(9);
                                 mvt.IdClient = reader.GetInt32(10);
-                                mvt.DesignationDevise = reader.GetString(11);
+                                //mvt.DesignationDevise = reader.GetString(11);
 
                                 mouvement_s.Add(mvt);
                             }

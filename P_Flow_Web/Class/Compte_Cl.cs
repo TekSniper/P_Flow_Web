@@ -15,6 +15,7 @@ namespace P_Flow_Web.Class
         public string DesignationType { get; set; }
         public string UserLogin { get; set; }
         public string CodeReseau { get; set; }
+        private Dictionary<string,string> NumInt { get; set; }
 
         public bool CreateCompte()
         {
@@ -104,6 +105,22 @@ namespace P_Flow_Web.Class
             }
 
             return isTrue;
+        }
+
+
+        public Dictionary<string,string> GetNumDesignation()
+        {
+            using(var cnx= new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("select * from pf.compte", cnx);
+                NumInt = new Dictionary<string, string>();
+                var reader = cm.ExecuteReader();
+                while (reader.Read())
+                    NumInt.Add(reader.GetString(0), reader.GetString(2));
+            }
+
+            return NumInt;
         }
     }
 }

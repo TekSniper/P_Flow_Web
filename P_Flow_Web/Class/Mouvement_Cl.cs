@@ -16,8 +16,8 @@ namespace P_Flow_Web.Class
         public decimal FraisTrs{get;set;}
         public string NumCompte{get;set;}
         public int IdUser{get;set;}
-        public int IdClient{get;set;}
-        public string DesignationDevise{get;set;}
+        public long IdClient{get;set;}
+        public decimal Commision { get; set; }
 
 
         /***
@@ -25,7 +25,7 @@ namespace P_Flow_Web.Class
          * Enregistrement d'un mouvement (opération)
          * 
          */
-        public bool NouvelleOpération()
+        public bool NouvelleOperation()
         {
             var isTrue = false;
             using(var cnx = new dbConnection().GetConnection())

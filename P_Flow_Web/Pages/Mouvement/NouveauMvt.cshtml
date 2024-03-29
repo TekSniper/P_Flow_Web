@@ -79,6 +79,100 @@
                 </div>
                 <hr />
                 <h2 class="subtitle">Détails de l'opération</h2>
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label" for="typeMvt">Type mouvement</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="cbTypeMvt" id="typeMvt">
+                                        <option value="Null">Selectionnez le type</option>
+                                        @foreach(KeyValuePair<int,string> type_mvt in Model.listTypeMouvement)
+                                        {
+                                            <option value="@type_mvt.Key">@type_mvt.Value</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label" for="date">Date</label>
+                            <div class="control">
+                                <input type="date" class="input" value="@Model._mouvement.DateMvt" name="tbDate" id="date" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label" for="designation">Designation Mvt</label>
+                            <div class="control">
+                                <input type="text" class="input" value="@Model._mouvement.Designation" name="tbDesignation" id="designation" placeholder="Designation Mvt" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label" for="volume">Volume</label>
+                            <div class="control">
+                                <input type="number" id="volume" class="input" name="tbVolume" placeholder="Volume" value="@Model._mouvement.Volume" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label" for="montantv">Montant</label>
+                            <div class="control">
+                                <input type="number" class="input" placeholder="Montant" value="@Model._mouvement.Montant" name="tbMontant" id="montantv" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label" for="montantp">Montant à payer</label>
+                            <div class="control">
+                                <input type="number" class="input" placeholder="Montant à payer" value="@Model._mouvement.MontantAPayer" name="tbMontantP" id="montantp" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label" for="devise">Devise</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="cbDevise" id="devise">
+                                        <option value="Null">Sélectionnez la dévise</option>
+                                        @foreach(KeyValuePair<string,string> d in Model.listDevise)
+                                        {
+                                            <option value="@d.Key">@d.Value</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>  
+                    <div class="column">
+                        <div class="field">
+                            <label class="label" for="compte">Compte</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="cbCompte" id="compte">
+                                        <option value="Null">Sélectionnez le compte</option>
+                                        @foreach (KeyValuePair<string, string> c in Model.listCompte)
+                                        {
+                                            <option value="@c.Key">@c.Value</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
                 <div class="field is-grouped">
                     <div class="control">
                         <input type="submit" class="button is-success" value="Valider l'opération" />

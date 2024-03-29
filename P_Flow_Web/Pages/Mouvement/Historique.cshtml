@@ -41,6 +41,16 @@
             
         </div>
     </nav>*@
+    @if(Model.ErrorMessage != string.Empty)
+    {
+        <div class="notification is-danger">
+            <button class="delete"></button>
+            <strong>Erreur !</strong>
+            <p>
+                @Model.ErrorMessage
+            </p>
+        </div>
+    }
     <div class="column is-10">
         <h1 class="title">Les mouvements des opérations</h1>
             <nav class="level">

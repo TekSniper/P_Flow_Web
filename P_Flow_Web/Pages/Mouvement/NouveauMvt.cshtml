@@ -1,4 +1,93 @@
 ﻿@page
 @model P_Flow_Web.Pages.Mouvement.NouveauMvtModel
 @{
+    ViewData["title"] = "Nouvelle opérations";
+    Layout = "_LayoutUser";
 }
+@if(Model.ErrorMessage != string.Empty)
+{
+    <div class="notification is-danger is-light">
+        <button class="delete"></button>
+        <strong>Erreur !</strong>
+        <p>
+            @Model.ErrorMessage
+        </p>
+    </div>
+}
+@if (Model.WarningMessage != string.Empty)
+{
+    <div class="notification is-warning is-light">
+        <button class="delete"></button>
+        <strong>Attention !</strong>
+        <p>
+            @Model.WarningMessage
+        </p>
+    </div>
+}@if (Model.SuccessMessage != string.Empty)
+{
+    <div class="notification is-success is-light">
+        <button class="delete"></button>
+        <strong>Succès !</strong>
+        <p>
+            @Model.SuccessMessage
+        </p>
+    </div>
+}
+<div class="columns is-centered">
+    <div class="column is-10-desktop is-10-widescreen is-8-tablet">
+        <h1 class="title">Nouvelle Opération</h1>
+        <div>
+            <form method="post">
+                <h2 class="subtitle">Identification du Client</h2>
+                <div class="field">
+                    <label class="label" for="clientName">Nom du client</label>
+                    <div class="control">
+                        <input type="text" class="input" id="clientName" name="tbClientName" value="@Model._client.Nom" placeholder="Nom du client" />
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label" for="piece">Piece d'identité</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="cbPiece" id="piece">
+                                        <option value="Null">Selectionnez le type</option>
+                                        @foreach(var t in Model.GetTypePieceId())
+                                        {
+                                            <option value="@t">@t</option>
+                                        }
+                                    </select>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label" for="NumPiece">Numéro Pièce ID</label>
+                            <div class="control">
+                                <input class="input" type="text" value="@Model._client.RefPiece" name="tbRefPiece" id="NumPiece" placeholder="Réf Pièce d'identité" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="PhoneClient">Numéro de téléphone</label>
+                    <div class="control">
+                        <input type="tel" class="input" placeholder="Numéro de téléphone" id="PhoneClient" name="tbPhoneClient" value="@Model._client.NumeroPhone" />
+                    </div>
+                </div>
+                <hr />
+                <h2 class="subtitle">Détails de l'opération</h2>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <input type="submit" class="button is-success" value="Valider l'opération" />
+                    </div>
+                    <div class="control">
+                        <input type="reset" class="button is-danger is-outlined" value="Réinitialiser" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

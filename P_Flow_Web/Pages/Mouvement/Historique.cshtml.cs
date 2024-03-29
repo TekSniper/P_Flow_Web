@@ -36,32 +36,41 @@ namespace P_Flow_Web.Pages.Mouvement
                 }
                 else
                 {
-                    using(var cnx = new dbConnection().GetConnection()){
-                        cnx.Open();
-                        var cm = new NpgsqlCommand("select numero_mvt,type_mvt,date_mvt,mv.designation,volume,"+
-			 "montant,montant_a_payer,"+
-			 "devise,frais_trs,num_compte,id_client,dv.designation "+
-			 "from pf.mouvement mv,pf.devise dv where devise=code",cnx);
-                        var reader = cm.ExecuteReader();
-                        mouvement_s = new List<Mouvement_Cl>();
-                        while(reader.Read()){
-                            var mvt = new Mouvement_Cl();
-                            mvt.NumMouvement = reader.GetString(0);
-                            mvt.TypeMvt = reader.GetInt32(1);
-                            mvt.DateMvt = reader.GetDateTime(2);
-                            mvt.Designation = reader.GetString(3);
-                            mvt.Volume = reader.GetString(4);
-                            mvt.Montant = reader.GetDecimal(5);
-                            mvt.MontantAPayer = reader.GetDecimal(6);
-                            mvt.Devise = reader.GetString(7);
-                            mvt.FraisTrs = reader.GetDecimal(8);
-                            mvt.NumCompte = reader.GetString(9);
-                            mvt.IdClient = reader.GetInt32(10);
-                            mvt.DesignationDevise = reader.GetString(11);
+                    try
+                    {
+                        using (var cnx = new dbConnection().GetConnection())
+                        {
+                            cnx.Open();
+                            var cm = new NpgsqlCommand("select numero_mvt,type_mvt,date_mvt,mv.designation,volume," +
+                                                     "montant,montant_a_payer," +
+                                                     "devise,frais_trs,num_compte,id_client,dv.designation " +
+                                                     "from pf.mouvement mv,pf.devise dv where devise=code", cnx);
+                            var reader = cm.ExecuteReader();
+                            mouvement_s = new List<Mouvement_Cl>();
+                            while (reader.Read())
+                            {
+                                var mvt = new Mouvement_Cl();
+                                mvt.NumMouvement = reader.GetString(0);
+                                mvt.TypeMvt = reader.GetInt32(1);
+                                mvt.DateMvt = reader.GetDateTime(2);
+                                mvt.Designation = reader.GetString(3);
+                                mvt.Volume = reader.GetString(4);
+                                mvt.Montant = reader.GetDecimal(5);
+                                mvt.MontantAPayer = reader.GetDecimal(6);
+                                mvt.Devise = reader.GetString(7);
+                                mvt.FraisTrs = reader.GetDecimal(8);
+                                mvt.NumCompte = reader.GetString(9);
+                                mvt.IdClient = reader.GetInt32(10);
+                                mvt.DesignationDevise = reader.GetString(11);
 
-                            mouvement_s.Add(mvt);
+                                mouvement_s.Add(mvt);
+                            }
                         }
                     }
+                    catch(Exception ex)
+                    {
+                        ErrorMessage = ex.Message;
+                    }                    
                 }
             }
         }

@@ -1,4 +1,6 @@
-﻿namespace P_Flow_Web.Class
+﻿using Npgsql;
+
+namespace P_Flow_Web.Class
 {
     public class Mouvement_Cl
     {
@@ -16,5 +18,23 @@
         public int IdUser{get;set;}
         public int IdClient{get;set;}
         public string DesignationDevise{get;set;}
+
+
+        /***
+         * 
+         * Enregistrement d'un mouvement (opération)
+         * 
+         */
+        public bool NouvelleOpération()
+        {
+            var isTrue = false;
+            using(var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("", cnx);
+            }
+
+            return isTrue;
+        }
     }
 }

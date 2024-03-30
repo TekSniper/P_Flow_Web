@@ -20,7 +20,7 @@
 
     .menu-list a {
         color: #0F1D38;
-        font-size: 14px;
+        font-size: 22px;
         font-weight: 700;
     }
 
@@ -61,15 +61,15 @@
     }
 
     .hero.welcome .title, .hero.welcome .subtitle {
-        color: hsl(192, 17%, 99%);
+        color: hsl(192, 22%, 99%);
     }
 
     .card .content {
-        font-size: 14px;
+        font-size: 22px;
     }
 
     .card-footer-item {
-        font-size: 14px;
+        font-size: 22px;
         font-weight: 700;
         color: #8F99A3;
     }
@@ -94,7 +94,7 @@
         background: linear-gradient(to right, #5B86E5, #36D1DC);
     }
     .hero.welcome .title, .hero.welcome .subtitle {
-        color: hsl(192, 17%, 99%);
+        color: hsl(192, 22%, 99%);
     }
 
 </style>
@@ -114,7 +114,7 @@
 <p class="subtitle has-text-centered has-text-info">Les comptes courants en Franc congolais (CDF)</p>
 <section class="info-tiles">
     <div class="tile is-ancestor has-text-centered">
-        <div class="tile is-parent">
+        @* <div class="tile is-parent">
             <article class="tile is-child box">
                 <p class="title" style="color:#e60000">439k</p>
                 <p class="subtitle">Compte m-pesa</p>
@@ -137,14 +137,66 @@
                 <p class="title" style="color:#87007b">19</p>
                 <p class="subtitle">Compte Afrimoney</p>
             </article>
-        </div>
+        </div> *@
+
+
+        <!-- Parcourir la liste des comptes -->
+        @foreach(var compte in Model.list_comptes)
+        {
+            @if(compte.Devise == "CDF")
+            {
+                @switch (compte.CodeReseau)
+                {
+                    case "VDC":
+                        {
+                            <div class="tile is-parent">
+                                <article class="tile is-child box">
+                                    <p class="title" style="color:#e60000; font-size:22px">@compte.Solde.ToString("##,##.##")&nbsp;@compte.Devise</p>
+                                    <p class="subtitle">@compte.Intitule</p>
+                                </article>
+                            </div>
+                        }
+                        break;
+                    case "ORG":
+                        {
+                            <div class="tile is-parent">
+                                <article class="tile is-child box">
+                                    <p class="title" style="color:#fe6600; font-size:22px">@compte.Solde.ToString("##,##.##")&nbsp;@compte.Devise</p>
+                                    <p class="subtitle">@compte.Intitule</p>
+                                </article>
+                            </div>
+                        }
+                        break;
+                    case "AIR":
+                        {
+                            <div class="tile is-parent">
+                                <article class="tile is-child box">
+                                    <p class="title" style="color:#e20613; font-size:22px">@compte.Solde.ToString("##,##.##")&nbsp;@compte.Devise</p>
+                                    <p class="subtitle">@compte.Intitule</p>
+                                </article>
+                            </div>
+                        }
+                        break;
+                    case "AFR":
+                        {
+                            <div class="tile is-parent">
+                                <article class="tile is-child box">
+                                    <p class="title" style="color:#87007b; font-size:22px">@compte.Solde.ToString("##,##.##")&nbsp;@compte.Devise</p>
+                                    <p class="subtitle">@compte.Intitule</p>
+                                </article>
+                            </div>
+                        }
+                        break;
+                }                
+            }            
+        }        
     </div>
 </section>
 <br />
 <p class="subtitle has-text-centered has-text-success">Les comptes courants en Dollars (USD)</p>
 <section class="info-tiles">
     <div class="tile is-ancestor has-text-centered">
-        <div class="tile is-parent">
+        @* <div class="tile is-parent">
             <article class="tile is-child box">
                 <p class="title" style="color:#e60000">439k</p>
                 <p class="subtitle">Compte m-pesa</p>
@@ -167,7 +219,58 @@
                 <p class="title" style="color:#87007b">19</p>
                 <p class="subtitle">Compte Afrimoney</p>
             </article>
-        </div>
+        </div> *@
+
+
+        @foreach (var compte in Model.list_comptes)
+        {
+            @if (compte.Devise == "USD")
+            {
+                @switch (compte.CodeReseau)
+                {
+                    case "VDC":
+                        {
+                            <div class="tile is-parent">
+                                <article class="tile is-child box">
+                                    <p class="title" style="color:#e60000; font-size:22px">@compte.Solde.ToString("##,##.##")&nbsp;@compte.Devise</p>
+                                    <p class="subtitle">@compte.Intitule</p>
+                                </article>
+                            </div>
+                        }
+                        break;
+                    case "ORG":
+                        {
+                            <div class="tile is-parent">
+                                <article class="tile is-child box">
+                                    <p class="title" style="color:#fe6600; font-size:22px">@compte.Solde.ToString("##,##.##")&nbsp;@compte.Devise</p>
+                                    <p class="subtitle">@compte.Intitule</p>
+                                </article>
+                            </div>
+                        }
+                        break;
+                    case "AIR":
+                        {
+                            <div class="tile is-parent">
+                                <article class="tile is-child box">
+                                    <p class="title" style="color:#e20613; font-size:22px">@compte.Solde.ToString("##,##.##")&nbsp;@compte.Devise</p>
+                                    <p class="subtitle">@compte.Intitule</p>
+                                </article>
+                            </div>
+                        }
+                        break;
+                    case "AFR":
+                        {
+                            <div class="tile is-parent">
+                                <article class="tile is-child box">
+                                    <p class="title" style="color:#87007b; font-size:22px">@compte.Solde.ToString("##,##.##")&nbsp;@compte.Devise</p>
+                                    <p class="subtitle">@compte.Intitule</p>
+                                </article>
+                            </div>
+                        }
+                        break;
+                }
+            }
+        }
     </div>
 </section>
 <div class="columns">

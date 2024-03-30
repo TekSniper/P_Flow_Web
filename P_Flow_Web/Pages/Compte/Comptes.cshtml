@@ -37,9 +37,6 @@
                     <th>Intitulé</th>
                     <th>Phone</th>
                     <th>Solde</th>
-                    <th>Devise</th>
-                    <th>Login Utilisateur</th>
-                    <th>Réseau</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -51,10 +48,7 @@
                         <td>@compte.DesignationType</td>
                         <td>@compte.Intitule</td>
                         <td>@compte.NumeroPhone</td>
-                        <td>@compte.Solde.ToString("##,##.##")</td>
-                        <td>@compte.Devise</td>
-                        <td>@compte.UserLogin</td>
-                        <td>@compte.CodeReseau</td>
+                        <td>@compte.Solde.ToString("##,##.##")&nbsp;@compte.Devise</td>
                         <td>
                             <a href="#" class="button is-light is-link">Historique des mvt</a>
                         </td>

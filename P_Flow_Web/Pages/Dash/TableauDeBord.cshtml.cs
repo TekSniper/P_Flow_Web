@@ -11,6 +11,7 @@ namespace P_Flow_Web.Pages.Dash
         public string Type { get; set; } = string.Empty;
         public List<Menu_Cl> ParentMenu { get; set; }
         public List<Menu_Cl> ChildMenu { get; set; }
+        public List<Compte_Cl> list_comptes { get; set; }
         
         public void OnGet()
         {
@@ -21,6 +22,27 @@ namespace P_Flow_Web.Pages.Dash
             else
             {
                 //var getChildMenu = menu.GetChildMenu();
+                using(var cnx = new dbConnection().GetConnection())
+                {
+                    cnx.Open();
+                    var cm = new NpgsqlCommand("SELECT * from pf.compte c WHERE c.id_type=2 ORDER BY c.intitule", cnx);
+                    var reader = cm.ExecuteReader();
+                    list_comptes = new List<Compte_Cl>();
+                    while(reader.Read())
+                    {
+                        var _compte = new Compte_Cl();
+                        _compte.NumeroCompte = reader.GetString(0);
+                        _compte.IdType = reader.GetInt32(1);
+                        _compte.Intitule = reader.GetString(2);
+                        _compte.NumeroPhone = reader.GetString(3);
+                        _compte.Solde = reader.GetDecimal(4);
+                        _compte.Devise = reader.GetString(5);
+                        _compte.IdUser = reader.GetInt32(6);
+                        _compte.CodeReseau = reader.GetString(7);
+
+                        list_comptes.Add(_compte);
+                    }
+                }
             }
         }
         public List<Menu_Cl> GetAdminParentMenu()

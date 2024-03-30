@@ -122,5 +122,20 @@ namespace P_Flow_Web.Class
 
             return NumInt;
         }
+        public string GetDevise()
+        {
+            using(var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("select devise from pf.compte where numero_compte=@num", cnx);
+                cm.Parameters.AddWithValue("@num", NumeroCompte);
+                var reader = cm.ExecuteReader();
+                if(reader.Read())
+                    this.Devise = reader.GetString(0);
+
+
+                return Devise;
+            }
+        }
     }
 }

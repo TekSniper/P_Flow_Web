@@ -31,7 +31,28 @@ namespace P_Flow_Web.Class
             using(var cnx = new dbConnection().GetConnection())
             {
                 cnx.Open();
-                var cm = new NpgsqlCommand("", cnx);
+                var cm = new NpgsqlCommand("INSERT INTO pf.mouvement VALUES "+
+                             "(@numMvt,@type_mvt,@date,@designation,@numDest,@volume,@montant," +
+                             "@montantAP,@devise,@frais,@numCompte,@user,@client,@commission)", cnx);
+                cm.Parameters.AddWithValue("@numMvt", NumMouvement);
+                cm.Parameters.AddWithValue("type_mvt", TypeMvt);
+                cm.Parameters.AddWithValue("@date", DateMvt);
+                cm.Parameters.AddWithValue("@designation", Designation);
+                cm.Parameters.AddWithValue("@numDest", NumDestinataire);
+                cm.Parameters.AddWithValue("@volume", Volume);
+                cm.Parameters.AddWithValue("@montant", Montant);
+                cm.Parameters.AddWithValue("@montantAP", MontantAPayer);
+                cm.Parameters.AddWithValue("@frais", FraisTrs);
+                cm.Parameters.AddWithValue("@numCompte", NumCompte);
+                cm.Parameters.AddWithValue("@user", IdUser);
+                cm.Parameters.AddWithValue("@client", IdClient);
+                cm.Parameters.AddWithValue("@commission", Commision);
+                cm.Parameters.AddWithValue("@devise", Devise);
+
+                var i = cm.ExecuteNonQuery();
+
+                if (i == 0) isTrue = false;
+                else isTrue = true;
             }
 
             return isTrue;

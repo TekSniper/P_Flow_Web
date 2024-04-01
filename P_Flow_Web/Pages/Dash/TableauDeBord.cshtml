@@ -290,58 +290,22 @@
                 <div class="content">
                     <table class="table is-fullwidth is-striped">
                         <tbody>
-                            <tr>
-                                <td width="5%"><i class="fa-regular fa-bell"></i></td>
-                                <td>Lorum ipsum dolem aire</td>
-                                <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                            </tr>
-                            <tr>
-                                <td width="5%"><i class="fa-regular fa-bell"></i></td>
-                                <td>Lorum ipsum dolem aire</td>
-                                <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                            </tr>
-                            <tr>
-                                <td width="5%"><i class="fa-regular fa-bell"></i></td>
-                                <td>Lorum ipsum dolem aire</td>
-                                <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                            </tr>
-                            <tr>
-                                <td width="5%"><i class="fa-regular fa-bell"></i></td>
-                                <td>Lorum ipsum dolem aire</td>
-                                <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                            </tr>
-                            <tr>
-                                <td width="5%"><i class="fa-regular fa-bell"></i></td>
-                                <td>Lorum ipsum dolem aire</td>
-                                <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                            </tr>
-                            <tr>
-                                <td width="5%"><i class="fa-regular fa-bell"></i></td>
-                                <td>Lorum ipsum dolem aire</td>
-                                <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                            </tr>
-                            <tr>
-                                <td width="5%"><i class="fa-regular fa-bell"></i></td>
-                                <td>Lorum ipsum dolem aire</td>
-                                <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                            </tr>
-                            <tr>
-                                <td width="5%"><i class="fa-regular fa-bell"></i></td>
-                                <td>Lorum ipsum dolem aire</td>
-                                <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                            </tr>
-                            <tr>
-                                <td width="5%"><i class="fa-regular fa-bell"></i></td>
-                                <td>Lorum ipsum dolem aire</td>
-                                <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                            </tr>
+                            @foreach(var mvt in Model.GetDerniersMouvements())
+                            {
+                                <tr>
+                                    <td>@mvt.NumMouvement</td>
+                                    <td>@mvt.Designation</td>
+                                    <td>@mvt.MontantAPayer</td>
+                                    <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
+                                </tr>
+                            }                            
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    <div class="column is-6">
+    @* <div class="column is-6">
         <div class="card">
             <header class="card-header">
                 <p class="card-header-title">
@@ -392,5 +356,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> *@
 </div>

@@ -12,6 +12,7 @@ namespace P_Flow_Web.Pages.Dash
         public List<Menu_Cl> ParentMenu { get; set; }
         public List<Menu_Cl> ChildMenu { get; set; }
         public List<Compte_Cl> list_comptes { get; set; }
+        public List<Mouvement_Cl> derniers_mouvements { get; set; }
         
         public void OnGet()
         {
@@ -45,6 +46,30 @@ namespace P_Flow_Web.Pages.Dash
                 }
             }
         }
+
+        public List<Mouvement_Cl> GetDerniersMouvements()
+        {
+            using(var cnx = new dbConnection().GetConnection())
+            {
+                cnx.Open();
+                var cm = new NpgsqlCommand("SELECT * FROM pf.mouvement m ORDER BY m.date_mvt DESC LIMIT 10", cnx);
+                var reader = cm.ExecuteReader();
+                derniers_mouvements = new List<Mouvement_Cl>();
+                while(reader.Read())
+                {
+                    var _mvt = new Mouvement_Cl();
+                    _mvt.NumMouvement = reader.GetString(0);
+                    _mvt.DateMvt = reader.GetDateTime(2);
+                    _mvt.Designation = reader.GetString(3);
+                    _mvt.MontantAPayer = reader.GetDecimal(7);
+
+                    derniers_mouvements.Add(_mvt);
+                }
+
+                return derniers_mouvements;
+            }
+        }
+
         public List<Menu_Cl> GetAdminParentMenu()
         {
             using (var cnx = new dbConnection().GetConnection())
